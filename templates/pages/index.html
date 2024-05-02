@@ -1,15 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Math Generator</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-</head>
-
-<body>
-    <a href="{{ url_for('from_gia') }}" class="btn btn-primary mr-2">from_gia</a>
+{% block content %}
     <div class="container mt-5">
         <h1 class="text-center">Math Generator</h1>
         <div class="d-flex justify-content-center">
@@ -18,13 +9,13 @@
                 Equations</a>
         </div>
         {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        {% for message in messages %}
-        <div class="alert alert-{{ message[1] }}">
-            {{ message }}
-        </div>
-        {% endfor %}
-        {% endif %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message[1] }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
         {% endwith %}
         <form method="POST">
             <div class="form-group">
@@ -37,14 +28,12 @@
                 <input type="number" step="any" class="form-control" id="answer1" name="answer1" required>
             </div>
             {% if category == 'quadratic' %}
-            <div class="form-group">
-                <label for="answer2">Answer 2 (optional):</label>
-                <input type="number" step="any" class="form-control" id="answer2" name="answer2">
-            </div>
+                <div class="form-group">
+                    <label for="answer2">Answer 2 (optional):</label>
+                    <input type="number" step="any" class="form-control" id="answer2" name="answer2">
+                </div>
             {% endif %}
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
-</body>
-
-</html>
+{% endblock %}

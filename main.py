@@ -46,7 +46,7 @@ def index():
             else:
                 flash("Incorrect!", "error")
         return render_template(
-            "index.html",
+            "pages/index.html",
             correct_answer=correct_answer,
             category=category,
         )
@@ -56,7 +56,7 @@ def index():
             correct_answer = eval(problem)
 
             return render_template(
-                "index.html",
+                "pages/index.html",
                 problem=problem,
                 correct_answer=correct_answer,
                 category=category,
@@ -74,7 +74,7 @@ def index():
                 correct_answer = f"{correct_answer[0]}|{correct_answer[1]}"
 
             return render_template(
-                "index.html",
+                "pages/index.html",
                 problem=problem,
                 correct_answer=correct_answer,
                 category=category,
@@ -89,7 +89,7 @@ def from_gia():
     form = ProductForm(data=take_categories())
     if form.validate_on_submit():
         return redirect(f"from_gia/{form.type.data}")
-    return render_template("from_gia.html", form=form)
+    return render_template("pages/from_gia.html", form=form)
 
 
 @app.route("/from_gia/<string:catecory_id>", methods=["GET", "POST"])
@@ -105,7 +105,7 @@ def from_gia_catecory_id(catecory_id):
         return "False"
 
     return render_template(
-        "task.html", form=form, img=problem_img, answer=problem["answer"]
+        "pages/task.html", form=form, img=problem_img, answer=problem["answer"]
     )
 
 

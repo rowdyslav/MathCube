@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div>
+        <p>Ответ (для разработчиков):</p>
+        {{ answer }}
+    </div>
+    <br>
+    <div>
+        <img alt=" дробь: чис­ли­тель: 4, зна­ме­на­тель: 7 конец дроби x= целая часть: 7, дроб­ная часть: чис­ли­тель: 3, зна­ме­на­тель: 7 рав­но­силь­но дробь: чис­ли­тель: 4, зна­ме­на­тель: 7 конец дроби x= дробь: чис­ли­тель: 52, зна­ме­на­тель: 7 конец дроби рав­но­силь­но 4x=52 рав­но­силь­но x=13. "
+             class="tex" src='../../static/img/{{ img }}'' style="vertical-align:-8.4pt">
+
+        <form action="" method="post" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            <div>
+                {{ form.csrf_token }}
+            </div>
+            {% for field in form if field.name not in [' csrf_token', 'submit' ] %}
+                <div>
+                    {{ field.label() }}
+                    {{ field(class="form-control") }}
+                    {% for error in field.errors %}
+                        <div class="error">{{ error }}</div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+            <br>
+            <br>
+            <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+            <!--    {{message}}-->
+        </form>
+    </div>
+{% endblock %}

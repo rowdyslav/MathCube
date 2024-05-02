@@ -1,0 +1,8 @@
+:root {
+    --main-color: #0179FA;
+    --second-color: white;
+}
+
+header {
+    background-color: var(--main-color);
+}
