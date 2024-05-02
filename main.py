@@ -1,6 +1,6 @@
 import random
 
-from flask import Flask, flash, render_template, request
+from flask import Flask, flash, redirect, render_template, request, session
 from flask_login import (
     LoginManager,
     current_user,
@@ -9,18 +9,21 @@ from flask_login import (
     logout_user,
 )
 
-from misc import quadratic_equation
+from forms.category import ProductForm
+from forms.problems import AnswerForm
+from misc import quadratic_equation, sample
+from misc.gia import get_problem, take_categories, take_problems
 
 app = Flask(__name__)
 app.secret_key = "your_secret_key"
-login_manager = LoginManager()
-login_manager.init_app(app)
+# login_manager = LoginManager()
+# login_manager.init_app(app)
 
 
 @app.route("/", methods=["GET", "POST"])
-@login_required
+# @login_required
 def index():
-    category = request.args.get("category", default="simple", type=str)
+    category = request.args.get("category", default="sample", type=str)
     if request.method == "POST":
         user_answer1 = float(request.form.get("answer1"))
         user_answer2 = request.form.get("answer2")
@@ -29,7 +32,7 @@ def index():
 
         correct_answer = request.form.get("correct_answer")
 
-        if category == "simple":
+        if category == "sample":
             if user_answer1 == float(correct_answer):
                 flash("Correct!", "success")
             else:
@@ -48,7 +51,9 @@ def index():
             category=category,
         )
     elif request.method == "GET":
-        if category == "simple":
+        if category == "sample":
+            problem = sample.generate()
+            correct_answer = eval(problem)
 
             return render_template(
                 "index.html",
