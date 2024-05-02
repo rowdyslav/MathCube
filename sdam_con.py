@@ -1,6 +1,7 @@
 import requests
 from sdamgia import SdamGIA
 from pprint import pprint
+
 sdamgia = SdamGIA()
 subject = 'math'
 # data = sdamgia.get_catalog(subject)
@@ -9,9 +10,8 @@ subject = 'math'
   'Простейшие уравнения': '6',
   'Уравнения': '13',
 }
-def take_categories(topic_id):
+def take_categories(topic_id='6'):
     """Взять категории(category) для topic"""
-    answer = ''
     data = sdamgia.get_catalog(subject)
     for i in data:
         if i['topic_id'] == str(topic_id):
@@ -20,7 +20,6 @@ def take_categories(topic_id):
 
 def take_problems(categori_id):
     """Взять задачи из category"""
-    answer = ''
     data = sdamgia.get_category_by_id(subject, str(categori_id))
     return data
 
@@ -40,7 +39,7 @@ def write_file(response):
         file.write(response.content)
     return filename
 
-pprint(get_problem(77368))
+pprint(take_categories(13))
 
 # '''СдамГИА
 # └── Предмет (subject)
