@@ -2,7 +2,8 @@ import math
 import random
 
 from flask import Flask, flash, render_template, request
-
+from forms.category import ProductForm
+from sdam_con import take_categories, take_problems, get_problem
 app = Flask(__name__)
 app.secret_key = "your_secret_key"
 
@@ -109,6 +110,14 @@ def index():
             )
         else:
             raise ValueError("Invalid category")
+        
+
+@app.route("/from_gia", methods=["GET", "POST"])
+def from_gia():
+    form =  ProductForm(take_categories())
+    problem_id = random.choice(take_problems())
+    problem = get_problem(problem_id)
+    return render_template('from_gia.html', form=form)
 
 
 if __name__ == "__main__":

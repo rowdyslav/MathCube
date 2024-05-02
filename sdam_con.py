@@ -12,10 +12,13 @@ subject = 'math'
 }
 def take_categories(topic_id='6'):
     """Взять категории(category) для topic"""
+    answer = []
     data = sdamgia.get_catalog(subject)
-    for i in data:
-        if i['topic_id'] == str(topic_id):
-            return i['categories']
+    for item in data:
+        if item['topic_id'] == str(topic_id):
+            for category in item['categories']:
+                answer.append((category['category_id'], category['category_name']))
+            return answer
     return
 
 def take_problems(categori_id):
@@ -39,7 +42,7 @@ def write_file(response):
         file.write(response.content)
     return filename
 
-pprint(take_categories(13))
+pprint(take_problems(14))
 
 # '''СдамГИА
 # └── Предмет (subject)
