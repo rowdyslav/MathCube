@@ -1,6 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import SelectField, StringField, SubmitField, MultipleFileField, widgets, SelectMultipleField, \
-    TextAreaField
+from wtforms import SelectField, SubmitField
 from wtforms.validators import DataRequired
 
 class ProductForm(FlaskForm):
