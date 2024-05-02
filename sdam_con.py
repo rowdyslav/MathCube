@@ -21,9 +21,9 @@ def take_categories(topic_id='6'):
             return answer
     return
 
-def take_problems(categori_id):
+def take_problems(category_id):
     """Взять задачи из category"""
-    data = sdamgia.get_category_by_id(subject, str(categori_id))
+    data = sdamgia.get_category_by_id(subject, str(category_id))
     return data
 
 def get_problem(problem_id):
@@ -33,7 +33,7 @@ def get_problem(problem_id):
 
 def get_file(url):
     r = requests.get(url, allow_redirects=True)
-    write_file(r)
+    return write_file(r)
 
 
 def write_file(response):

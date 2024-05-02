@@ -1,8 +1,9 @@
 import math
 import random
 
-from flask import Flask, flash, render_template, request
+from flask import Flask, flash, render_template, request, redirect, url_for, session
 from forms.category import ProductForm
+from forms.problems import AnswerForm
 from sdam_con import take_categories, take_problems, get_problem
 app = Flask(__name__)
 app.secret_key = "your_secret_key"
@@ -114,10 +115,25 @@ def index():
 
 @app.route("/from_gia", methods=["GET", "POST"])
 def from_gia():
-    form =  ProductForm(take_categories())
-    problem_id = random.choice(take_problems())
-    problem = get_problem(problem_id)
+    form =  ProductForm(data=take_categories())
+    if form.validate_on_submit():
+        return redirect(f'from_gia/{form.type.data}')
     return render_template('from_gia.html', form=form)
+
+@app.route("/from_gia/<string:catecory_id>", methods=["GET", "POST"])
+def from_gia_catecory_id(catecory_id):
+    form = AnswerForm()
+    if request.method == "GET":
+        session['problem_id'] = random.choice(take_problems(catecory_id))
+    problem = get_problem(session['problem_id'])
+    problem_img, problem = problem['filename'], problem['data']
+    if form.validate_on_submit():
+        if str(problem['answer']) == str(form.answer.data):
+            return 'True'
+        return 'False'
+    
+
+    return render_template('task.html', form=form, img=problem_img, answer=problem['answer'])
 
 
 if __name__ == "__main__":
