@@ -48,6 +48,9 @@ def write_file(response):
         file.write(response.content)
     return filename
 
+if __name__ == '__main__':
+    pprint(get_problem(26662))
+
 
 # '''СдамГИА
 # └── Предмет (subject)

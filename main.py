@@ -105,7 +105,7 @@ def from_gia_catecory_id(catecory_id):
         return "False"
 
     return render_template(
-        "pages/task.html", form=form, img=problem_img, answer=problem["answer"]
+        "pages/task.html", form=form, img=problem, answer=problem["answer"]
     )
 
 
