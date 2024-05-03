@@ -12,7 +12,7 @@ from flask_login import (
 from forms.category import ProductForm
 from forms.problems import AnswerForm
 from misc import quadratic_equation, sample
-from misc.gia import get_problem, take_categories, take_problems
+from misc.gia import get_problem, take_categories, take_problems, get_analogs
 
 app = Flask(__name__)
 app.secret_key = "your_secret_key"
@@ -96,16 +96,30 @@ def from_gia():
 def from_gia_catecory_id(catecory_id):
     form = AnswerForm()
     if request.method == "GET":
-        session["problem_id"] = random.choice(take_problems(catecory_id))
+        if not session.get('turn'):
+            main_problem = random.choice(take_problems(catecory_id))
+            turn = get_analogs(main_problem)
+            random.shuffle(turn)
+            session["turn"] = turn
+        elif len(session.get('turn')):
+            main_problem = random.choice(take_problems(catecory_id))
+            turn = get_analogs(main_problem)
+            random.shuffle(turn)
+            session["turn"] = turn
+        session["problem_id"] = session['turn'].pop(0)
+
     problem = get_problem(session["problem_id"])
-    problem_img, problem = problem["filename"], problem["data"]
+    # problem_img, problem = problem["filename"], problem["data"]
+    way = '../../static/img/'
     if form.validate_on_submit():
         if str(problem["answer"]) == str(form.answer.data):
-            return "True"
-        return "False"
+            get_problem(session["problem_id"])
+            redirect(f"from_gia/{catecory_id}")
+        else:
+            return problem
 
     return render_template(
-        "pages/task.html", form=form, img=problem_img, answer=problem["answer"]
+        "pages/task.html", form=form, img=problem['condition']['images'][0], answer=problem["answer"]
     )
 
 

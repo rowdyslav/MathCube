@@ -1,2 +1,3 @@
 .venv
-take_problem.py
+.idea
+**/__pycache__/
