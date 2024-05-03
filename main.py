@@ -11,8 +11,7 @@ from flask_login import (
 
 from forms.category import ProductForm
 from forms.problems import AnswerForm
-from misc import quadratic_equation, sample
-from misc.gia import get_problem, take_categories, take_problems, get_analogs
+from misc import gia, quadratic_equation, sample
 
 app = Flask(__name__)
 app.secret_key = "your_secret_key"
@@ -91,7 +90,7 @@ def generator():
 
 @app.route("/from_gia", methods=["GET", "POST"])
 def from_gia():
-    form = ProductForm(data=take_categories())
+    form = ProductForm(data=gia.get_categories())
     if form.validate_on_submit():
         return redirect(f"from_gia/{form.type.data}")
     return render_template("pages/from_gia.html", form=form)
@@ -101,37 +100,43 @@ def from_gia():
 def from_gia_catecory_id(catecory_id):
     form = AnswerForm()
     if request.method == "GET":
-        if not session.get('turn'):
-            main_problem = random.choice(take_problems(catecory_id))
-            turn = get_analogs(main_problem)
+        if not session.get("turn"):
+            main_problem = random.choice(gia.get_category(catecory_id))
+            turn = gia.get_analogs(main_problem)
             random.shuffle(turn)
             session["turn"] = turn
-        elif len(session.get('turn')):
-            main_problem = random.choice(take_problems(catecory_id))
-            turn = get_analogs(main_problem)
+        elif len(session.get("turn")):
+            main_problem = random.choice(gia.get_category(catecory_id))
+            turn = gia.get_analogs(main_problem)
             random.shuffle(turn)
             session["turn"] = turn
-        session["problem_id"] = session['turn'].pop(0)
+        session["problem_id"] = session["turn"].pop(0)
 
-    problem = get_problem(session["problem_id"])
+    problem = gia.get_problem(session["problem_id"])
     answer = problem["answer"]
     while not len(answer):
-        session["problem_id"] = session['turn'].pop(0)
-        problem = get_problem(session["problem_id"])
+        session["problem_id"] = session["turn"].pop(0)
+        problem = gia.get_problem(session["problem_id"])
         answer = problem["answer"]
 
     if form.validate_on_submit():
         if str(problem["answer"]) == str(form.answer.data):
-            get_problem(session["problem_id"])
+            gia.get_problem(session["problem_id"])
             return redirect(f"/from_gia/{catecory_id}")
         else:
             return render_template(
-        "pages/task.html", form=form, img=problem['condition']['images'][0], answer=answer, message='Неверно, попробуй ещё'
-    )
-
+                "pages/task.html",
+                form=form,
+                img=problem["condition"]["images"][0],
+                answer=answer,
+                message="Неверно, попробуй ещё",
+            )
 
     return render_template(
-        "pages/task.html", form=form, img=problem['condition']['images'][0], answer=answer
+        "pages/task.html",
+        form=form,
+        img=problem["condition"]["images"][0],
+        answer=answer,
     )
 
 
