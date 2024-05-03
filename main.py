@@ -109,17 +109,24 @@ def from_gia_catecory_id(catecory_id):
         session["problem_id"] = session['turn'].pop(0)
 
     problem = get_problem(session["problem_id"])
-    # problem_img, problem = problem["filename"], problem["data"]
-    way = '../../static/img/'
+    answer = problem["answer"]
+    while not len(answer):
+        session["problem_id"] = session['turn'].pop(0)
+        problem = get_problem(session["problem_id"])
+        answer = problem["answer"]
+
     if form.validate_on_submit():
         if str(problem["answer"]) == str(form.answer.data):
             get_problem(session["problem_id"])
-            redirect(f"from_gia/{catecory_id}")
+            return redirect(f"/from_gia/{catecory_id}")
         else:
-            return problem
+                return render_template(
+        "pages/task.html", form=form, img=problem['condition']['images'][0], answer=answer, message='Неверно, попробуй ещё'
+    )
+
 
     return render_template(
-        "pages/task.html", form=form, img=problem['condition']['images'][0], answer=problem["answer"]
+        "pages/task.html", form=form, img=problem['condition']['images'][0], answer=answer
     )
 
 
