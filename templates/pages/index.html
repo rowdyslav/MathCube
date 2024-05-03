@@ -4,8 +4,8 @@
     <div class="container mt-5">
         <h1 class="text-center">Math Generator</h1>
         <div class="d-flex justify-content-center">
-            <a href="{{ url_for('index', category='sample') }}" class="btn btn-primary mr-2">Sample Equations</a>
-            <a href="{{ url_for('index', category='quadratic', difficulty='easy') }}" class="btn btn-primary">Quadratic
+            <a href="{{ url_for('index', category='sample') }}" class="btn btn-outline-info mr-2">Sample Equations</a>
+            <a href="{{ url_for('index', category='quadratic', difficulty='easy') }}" class="btn btn-outline-info">Quadratic
                 Equations</a>
         </div>
         {% with messages = get_flashed_messages() %}

@@ -1,0 +1,13 @@
+:root {
+    --main-color: #0179FA;
+    --second-color: #ffffff;
+}
+
+body {
+    background-color: var(--second-color);
+    margin: 0;
+}
+
+botton {
+    background-color: var(--button-color);
+}
