@@ -20,9 +20,14 @@ app.secret_key = "your_secret_key"
 # login_manager.init_app(app)
 
 
-@app.route("/", methods=["GET", "POST"])
-# @login_required
+@app.route("/")
 def index():
+    return render_template("pages/home.html")
+
+
+@app.route("/generator", methods=["GET", "POST"])
+# @login_required
+def generator():
     category = request.args.get("category", default="sample", type=str)
     if request.method == "POST":
         user_answer1 = float(request.form.get("answer1"))
