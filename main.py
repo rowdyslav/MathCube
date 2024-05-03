@@ -106,8 +106,7 @@ def from_gia_catecory_id(catecory_id):
             turn = get_analogs(main_problem)
             random.shuffle(turn)
             session["turn"] = turn
-        print(session.get('turn'))
-        session["problem_id"] = session['turn'].pop([0])
+        session["problem_id"] = session['turn'].pop(0)
 
     problem = get_problem(session["problem_id"])
     # problem_img, problem = problem["filename"], problem["data"]
@@ -117,7 +116,7 @@ def from_gia_catecory_id(catecory_id):
             get_problem(session["problem_id"])
             redirect(f"from_gia/{catecory_id}")
         else:
-            return 'Решено не верно'
+            return problem
 
     return render_template(
         "pages/task.html", form=form, img=problem['condition']['images'][0], answer=problem["answer"]
