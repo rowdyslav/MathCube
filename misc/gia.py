@@ -33,8 +33,12 @@ def take_problems(category_id):
 
 def get_problem(problem_id):
     data = sdamgia.get_problem_by_id(subject, str(problem_id))
-    filename = get_file(data["condition"]["images"][0])
-    return {"filename": filename, "data": data}
+    return data
+
+def get_analogs(problem_id):
+    data = sdamgia.get_problem_by_id(subject, str(problem_id))['analogs']
+    data = list(filter(lambda x: x != '...', data))
+    return data
 
 
 def get_file(url):
@@ -49,7 +53,8 @@ def write_file(response):
     return filename
 
 if __name__ == '__main__':
-    pprint(get_problem(26662))
+    pprint(get_analogs(9921))
+    # pprint(get_problem(get_problem(26662)['analogs'][3])['id'])
 
 
 # '''СдамГИА
