@@ -7,26 +7,26 @@ def generate_coefficients(difficulty: int) -> tuple[int, int, int]:
         match difficulty:
             case 0:
                 a = randint(1, 5)
-                b = randint(-20, 20)
-                c = randint(-40, 40)
+                b = 0
+                c = randint(-5, 5)
             case 1:
-                a = randint(1, 10)
-                b = randint(-50, 50)
-                c = randint(-100, 100)
+                a = randint(-2, 10)
+                b = randint(-10, 10)
+                c = 0
             case 2:
-                a = randint(1, 20)
-                b = randint(-100, 100)
-                c = randint(-200, 200)
+                a = randint(-10, 10)
+                b = randint(-15, 15)
+                c = randint(-20, 20)
             case _:
                 raise ValueError("Invalid difficulty level")
 
         discriminant = b * b - 4 * a * c
 
-        if discriminant >= 0 and (isqrt(discriminant) ** 2 == discriminant):
+        if a != 0 and discriminant >= 0 and (isqrt(discriminant) ** 2 == discriminant):
             return a, b, c
 
 
-def get_roots(a, b, c) -> float | tuple[float, float]:
+def get_roots(a: int, b: int, c: int) -> float | tuple[float, float]:
     discriminant = b * b - 4 * a * c
     sqrt_d = sqrt(abs(discriminant))
 
@@ -37,6 +37,8 @@ def get_roots(a, b, c) -> float | tuple[float, float]:
     elif discriminant == 0:
         root = -b / (2 * a)
         return root
+    else:
+        raise ValueError("Попытка получить корни корни квадратного уравнения с DБ")
 
 
 def format(a, b, c) -> str:
