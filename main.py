@@ -42,7 +42,7 @@ def generator():
             else:
                 flash("Incorrect!", "error")
         elif category == "quadratic":
-            correct_answers = {float(x) for x in correct_answer.split(", ")}
+            correct_answers = {float(x) for x in correct_answer.split("|")}
             if len(correct_answers & {user_answer1, user_answer2}) == len(
                 correct_answers
             ):

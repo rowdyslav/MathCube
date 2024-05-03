@@ -1,28 +1,38 @@
 from math import isqrt, sqrt
 from random import randint
 
+from icecream import ic
+
+
+def randcoef(a: int, b: int) -> int:
+    "Аналог функции random.randint. Не допускает нули"
+    while True:
+        result = randint(a, b)
+        if result != 0:
+            return result
+
 
 def generate_coefficients(difficulty: int) -> tuple[int, int, int]:
     while True:
         match difficulty:
             case 0:
-                a = randint(1, 5)
+                a = randcoef(1, 5)
                 b = 0
-                c = randint(-5, 5)
+                c = randcoef(-5, 5)
             case 1:
-                a = randint(-2, 10)
-                b = randint(-10, 10)
+                a = randcoef(-2, 10)
+                b = randcoef(-10, 10)
                 c = 0
             case 2:
-                a = randint(-10, 10)
-                b = randint(-15, 15)
-                c = randint(-20, 20)
+                a = randcoef(-10, 10)
+                b = randcoef(-15, 15)
+                c = randcoef(-20, 20)
             case _:
                 raise ValueError("Invalid difficulty level")
 
         discriminant = b * b - 4 * a * c
 
-        if a != 0 and discriminant >= 0 and (isqrt(discriminant) ** 2 == discriminant):
+        if discriminant >= 0 and (isqrt(discriminant) ** 2 == discriminant):
             return a, b, c
 
 
@@ -42,6 +52,7 @@ def get_roots(a: int, b: int, c: int) -> float | tuple[float, float]:
 
 
 def format(a, b, c) -> str:
+    ic(a, b, c)
     if b and c:
         template = "{0}x² {1} {2}x {3} {4} = 0"
     elif b and not c:
