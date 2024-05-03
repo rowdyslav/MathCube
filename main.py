@@ -125,7 +125,7 @@ def from_gia_catecory_id(catecory_id):
             get_problem(session["problem_id"])
             return redirect(f"/from_gia/{catecory_id}")
         else:
-                return render_template(
+            return render_template(
         "pages/task.html", form=form, img=problem['condition']['images'][0], answer=answer, message='Неверно, попробуй ещё'
     )
 
