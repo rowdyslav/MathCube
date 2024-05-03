@@ -1,39 +1,40 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="container mt-5">
-        <h1 class="text-center">Math Generator</h1>
-        <div class="d-flex justify-content-center">
-            <a href="{{ url_for('index', category='sample') }}" class="btn btn-outline-info mr-2">Sample Equations</a>
-            <a href="{{ url_for('index', category='quadratic', difficulty='easy') }}" class="btn btn-outline-info">Quadratic
-                Equations</a>
-        </div>
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                {% for message in messages %}
-                    <div class="alert alert-{{ message[1] }}">
-                        {{ message }}
-                    </div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-        <form method="POST">
-            <div class="form-group">
-                <label for="problem">Problem:</label>
-                <input type="text" class="form-control" id="problem" value="{{ problem }}" disabled>
-                <input type="hidden" name="correct_answer" value="{{ correct_answer }}">
-            </div>
-            <div class="form-group">
-                <label for="answer1">Answer 1:</label>
-                <input type="number" step="any" class="form-control" id="answer1" name="answer1" required>
-            </div>
-            {% if category == 'quadratic' %}
-                <div class="form-group">
-                    <label for="answer2">Answer 2 (optional):</label>
-                    <input type="number" step="any" class="form-control" id="answer2" name="answer2">
-                </div>
-            {% endif %}
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+<div class="container mt-5">
+    <h1 class="text-center">Math Generator</h1>
+    <div class="d-flex justify-content-center">
+        <a href="{{ url_for('generator', category='sample') }}" class="btn btn-outline-info mr-2">Sample Equations</a>
+        <a href="{{ url_for('generator', category='quadratic', difficulty='0') }}"
+            class="btn btn-outline-info">Quadratic
+            Equations</a>
     </div>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message[1] }}">
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+    <form method="POST">
+        <div class="form-group">
+            <label for="problem">Problem:</label>
+            <input type="text" class="form-control" id="problem" value="{{ problem }}" disabled>
+            <input type="hidden" name="correct_answer" value="{{ correct_answer }}">
+        </div>
+        <div class="form-group">
+            <label for="answer1">Answer 1:</label>
+            <input type="number" step="any" class="form-control" id="answer1" name="answer1" required>
+        </div>
+        {% if category == 'quadratic' %}
+        <div class="form-group">
+            <label for="answer2">Answer 2 (optional):</label>
+            <input type="number" step="any" class="form-control" id="answer2" name="answer2">
+        </div>
+        {% endif %}
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
 {% endblock %}

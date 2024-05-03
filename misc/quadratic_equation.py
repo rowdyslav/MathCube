@@ -1,22 +1,32 @@
 from math import isqrt, sqrt
 from random import randint
 
+from icecream import ic
+
+
+def randcoef(a: int, b: int) -> int:
+    "Аналог функции random.randint. Не допускает нули"
+    while True:
+        result = randint(a, b)
+        if result != 0:
+            return result
+
 
 def generate_coefficients(difficulty: int) -> tuple[int, int, int]:
     while True:
         match difficulty:
             case 0:
-                a = randint(1, 5)
-                b = randint(-20, 20)
-                c = randint(-40, 40)
+                a = randcoef(1, 5)
+                b = 0
+                c = randcoef(-5, 5)
             case 1:
-                a = randint(1, 10)
-                b = randint(-50, 50)
-                c = randint(-100, 100)
+                a = randcoef(-2, 10)
+                b = randcoef(-10, 10)
+                c = 0
             case 2:
-                a = randint(1, 20)
-                b = randint(-100, 100)
-                c = randint(-200, 200)
+                a = randcoef(-10, 10)
+                b = randcoef(-15, 15)
+                c = randcoef(-20, 20)
             case _:
                 raise ValueError("Invalid difficulty level")
 
@@ -26,7 +36,7 @@ def generate_coefficients(difficulty: int) -> tuple[int, int, int]:
             return a, b, c
 
 
-def get_roots(a, b, c) -> float | tuple[float, float]:
+def get_roots(a: int, b: int, c: int) -> float | tuple[float, float]:
     discriminant = b * b - 4 * a * c
     sqrt_d = sqrt(abs(discriminant))
 
@@ -37,9 +47,12 @@ def get_roots(a, b, c) -> float | tuple[float, float]:
     elif discriminant == 0:
         root = -b / (2 * a)
         return root
+    else:
+        raise ValueError("Попытка получить корни корни квадратного уравнения с DБ")
 
 
 def format(a, b, c) -> str:
+    ic(a, b, c)
     if b and c:
         template = "{0}x² {1} {2}x {3} {4} = 0"
     elif b and not c:
