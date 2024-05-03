@@ -40,9 +40,22 @@ def get_roots(a, b, c) -> float | tuple[float, float]:
 
 
 def format(a, b, c) -> str:
-    template = "{}x² {} {}x {} {}"
-    second = "+" if b > 0 else "-"
-    third = "+" if c > 0 else "-"
+    if b and c:
+        template = "{0}x² {1} {2}x {3} {4} = 0"
+    elif b and not c:
+        template = "{0}x² {1} {2}x = 0"
+    elif not b and c:
+        template = "{0}x² {3} {4} = 0"
+    if b > 0:
+        second = "+"
+    else:
+        b *= -1
+        second = "-"
+    if c > 0:
+        third = "+"
+    else:
+        c *= -1
+        third = "-"
     if a == 1:
         a = ""
     if b in (0, 1):
