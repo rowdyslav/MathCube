@@ -21,7 +21,7 @@ app.secret_key = "your_secret_key"
 
 @app.route("/")
 def index():
-    return render_template("pages/home.html")
+    return render_template("pages/index.html")
 
 
 @app.route("/generator", methods=["GET", "POST"])
@@ -50,7 +50,7 @@ def generator():
             else:
                 flash("Incorrect!", "error")
         return render_template(
-            "pages/index.html",
+            "pages/generator.html",
             correct_answer=correct_answer,
             category=category,
         )
@@ -60,7 +60,7 @@ def generator():
             correct_answer = eval(problem)
 
             return render_template(
-                "pages/index.html",
+                "pages/generator.html",
                 problem=problem,
                 correct_answer=correct_answer,
                 category=category,
@@ -78,7 +78,7 @@ def generator():
                 correct_answer = f"{correct_answer[0]}|{correct_answer[1]}"
 
             return render_template(
-                "pages/index.html",
+                "pages/generator.html",
                 problem=problem,
                 correct_answer=correct_answer,
                 category=category,

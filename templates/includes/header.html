@@ -1,26 +1,34 @@
 <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 px-5 mb-4">
-    <div class="col-md-1 mb-2 mb-md-0">
-        <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
-            <img class="header-logo" src="{{ url_for('static', filename='img/logo/gg1.png') }}" height="65" role="img">
-        </a>
-    </div>
+{#    <div class="col-md-2 mb-2 mb-md-0">#}
+{#        <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">#}
+{#            <img class="header-logo" src="{{ url_for('static', filename='img/logo/gg1.png') }}" height="65" role="img">#}
+{#        </a>#}
+{#    </div>#}
 
     <div class="col-md-8">
         <ul class="nav mb-2 mb-md-0">
-            <li>
-                <a href="/generator" class="nav-link px-2 {{ 'text-info' if request.path == '/generator' else 'text-white' }}">
+            <li class="mx-2">
+                <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
+                    <img class="header-logo" src="{{ url_for('static', filename='img/logo/gg1.png') }}" height="65"
+                         role="img">
+                </a>
+            </li>
+            <li class="my-auto mx-2">
+                <a href="/generator"
+                   class="nav-link px-2 {{ 'text-info' if request.path == '/generator' else 'text-white' }}">
                     Генератор
                 </a>
             </li>
-            <li>
-                <a href="/from_gia" class="nav-link px-2 {{ 'text-info' if '/from_gia' in request.path else 'text-white' }}">
+            <li class="my-auto mx-2">
+                <a href="/from_gia"
+                   class="nav-link px-2 {{ 'text-info' if '/from_gia' in request.path else 'text-white' }}">
                     ГИА
                 </a>
             </li>
         </ul>
     </div>
 
-    <div class="col-md-3 text-end">
+    <div class="col-md-4 text-end">
         <a href="/login">
             <button type="button" class="btn btn-outline-light me-2">Войти</button>
         </a>
