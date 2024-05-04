@@ -5,7 +5,7 @@ from icecream import ic
 
 
 def randcoef(a: int, b: int) -> int:
-    "Аналог функции random.randint. Не допускает нули"
+    "Аналог функции random.randint, который не допускает нули"
     while True:
         result = randint(a, b)
         if result != 0:
@@ -48,31 +48,37 @@ def get_roots(a: int, b: int, c: int) -> float | tuple[float, float]:
         root = -b / (2 * a)
         return root
     else:
-        raise ValueError("Попытка получить корни корни квадратного уравнения с DБ")
+        raise ValueError("Попытка получить корни корни квадратного уравнения с D < 0")
 
 
-def format(a, b, c) -> str:
+def format(a: int, b: int, c: int) -> str:
     ic(a, b, c)
+    a = 11
+    b = 11
+
     if b and c:
         template = "{0}x² {1} {2}x {3} {4} = 0"
     elif b and not c:
         template = "{0}x² {1} {2}x = 0"
     elif not b and c:
         template = "{0}x² {3} {4} = 0"
+
     if b > 0:
         second = "+"
     else:
         b *= -1
         second = "-"
+
     if c > 0:
         third = "+"
     else:
         c *= -1
         third = "-"
+
     if a == 1:
         a = ""
-    if b in (0, 1):
+    if b == 1:
         b = ""
-    if c == 0:
-        c = ""
-    return template.format(a, second, b, third, c)
+
+    result = template.format(a, second, b, third, c)
+    return result
