@@ -1,6 +1,17 @@
-from motor.motor_tornado import MotorClient
+import bson
+from bson.errors import InvalidId
+from bson.objectid import ObjectId
+from flask import current_app, g
+from flask_pymongo import PyMongo
+from pymongo.errors import DuplicateKeyError, OperationFailure
+from werkzeug.local import LocalProxy
 
-from config import MONGO_NAME, MONGO_URL
 
-client = MotorClient(MONGO_URL)
-db = client[MONGO_NAME]
+def get_db():
+    db = getattr(g, "_database", None)
+    if db is None:
+        db = g._database = PyMongo(current_app).db
+    return db
+
+
+db = LocalProxy(get_db)

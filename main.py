@@ -1,6 +1,6 @@
 import random
 
-from flask import Flask, flash, redirect, render_template, request, session
+from flask import Flask, flash, g, redirect, render_template, request, session, url_for
 from flask_login import (
     LoginManager,
     current_user,
@@ -8,20 +8,42 @@ from flask_login import (
     login_user,
     logout_user,
 )
+from werkzeug.security import check_password_hash, generate_password_hash
 
-from forms.category import ProductForm
-from forms.problems import AnswerForm
+from config import MONGO_URL
+from database.user import User
+from forms import AnswerForm, ProblemTypeForm
 from misc import gia, quadratic_equation, sample
 
 app = Flask(__name__)
 app.secret_key = "your_secret_key"
-# login_manager = LoginManager()
-# login_manager.init_app(app)
+app.config["MONGO_URI"] = MONGO_URL
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.get(user_id)
 
 
 @app.route("/")
 def index():
     return render_template("pages/index.html")
+
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+
+        _ = User.create(username, generate_password_hash(password))  # TODO
+    elif request.method == "GET":
+        return render_template("pages/register.html")
+
+    return redirect("/")
 
 
 @app.route("/generator", methods=["GET", "POST"])
@@ -37,23 +59,19 @@ def generator():
         correct_answer = request.form.get("correct_answer")
 
         if category == "sample":
-            if user_answer1 == float(correct_answer):
-                flash("Correct!", "success")
-            else:
-                flash("Incorrect!", "error")
+            correct = user_answer1 == float(correct_answer)
         elif category == "quadratic":
             correct_answers = {float(x) for x in correct_answer.split("|")}
-            if len(correct_answers & {user_answer1, user_answer2}) == len(
+            correct = len(correct_answers & {user_answer1, user_answer2}) == len(
                 correct_answers
-            ):
-                flash("Correct!", "success")
-            else:
-                flash("Incorrect!", "error")
-        return render_template(
-            "pages/generator.html",
-            correct_answer=correct_answer,
-            category=category,
-        )
+            )
+
+        if correct:
+            flash("Верно!")
+        else:
+            flash("Неправильно!")
+        return redirect(url_for("generator", category=category))
+
     elif request.method == "GET":
         if category == "sample":
             problem = sample.generate()
@@ -84,13 +102,12 @@ def generator():
                 category=category,
                 difficulty=difficulty,
             )
-        else:
-            raise ValueError("Invalid category")
+    return redirect("/", 400)
 
 
 @app.route("/from_gia", methods=["GET", "POST"])
 def from_gia():
-    form = ProductForm(data=gia.get_categories())
+    form = ProblemTypeForm(problems_types=gia.get_categories())
     if form.validate_on_submit():
         return redirect(f"from_gia/{form.type.data}")
     return render_template("pages/from_gia.html", form=form)

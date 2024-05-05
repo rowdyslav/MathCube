@@ -52,10 +52,6 @@ def get_roots(a: int, b: int, c: int) -> float | tuple[float, float]:
 
 
 def format(a: int, b: int, c: int) -> str:
-    ic(a, b, c)
-    a = 11
-    b = 11
-
     if b and c:
         template = "{0}x² {1} {2}x {3} {4} = 0"
     elif b and not c:
@@ -76,9 +72,9 @@ def format(a: int, b: int, c: int) -> str:
         third = "-"
 
     if a == 1:
-        a = ""
+        a = ""  # type: ignore
     if b == 1:
-        b = ""
+        b = ""  # type: ignore
 
     result = template.format(a, second, b, third, c)
     return result

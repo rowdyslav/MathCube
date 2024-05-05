@@ -1,11 +1,10 @@
 from bson.objectid import ObjectId as BsonObjectId
-from loader import db
-from motor.motor_tornado import MotorCollection
 from pydantic import BaseModel
 
 
+# TODO
 class Base(BaseModel):
-    _collection: MotorCollection = None
+    _collection = None
 
     @classmethod
     async def count(cls):
@@ -39,7 +38,3 @@ class Base(BaseModel):
     async def delete(cls, id: int):
         await cls._collection.find_one_and_delete({"_id": id})
         return True
-
-    @classmethod
-    def set_collection(cls, collection: str):
-        cls._collection = db[collection]

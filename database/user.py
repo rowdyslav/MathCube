@@ -8,14 +8,9 @@ class User(Base):
     username: str | None = Field(default=None)
 
     @classmethod
-    async def get_or_create(cls, id: int, username: str | None):
-        user = await cls.get(id)
-        user = (
-            await cls.update(user.id, username=username)
-            if user
-            else await cls.create(_id=id, username=username)
-        )
+    async def create(cls, username: str, password):
+        user = cls.create(username=username, password=password)
         return user
 
 
-User.set_collection("users")
+# User.set_collection("users") TODO
