@@ -1,40 +1,30 @@
-from bson.objectid import ObjectId as BsonObjectId
-from pydantic import BaseModel
+from typing import Self
+
+from bson import ObjectId
+from pymongo.collection import Collection
 
 
-# TODO
-class Base(BaseModel):
-    _collection = None
-
-    @classmethod
-    async def count(cls):
-        num = await cls._collection.count_documents({})
-        return num
+class Base:
+    _collection: Collection
 
     @classmethod
-    async def get(cls, id: int):
-        obj = await cls._collection.find_one({"_id": id})
+    def _get(cls, _id: str) -> Self | None:
+        obj = cls._collection.find_one({"_id": _id})
         return cls(**obj) if obj else None
 
     @classmethod
-    async def get_all(cls):
-        objs = cls._collection.find()
-        return [cls(**obj) async for obj in objs]
+    def _update(cls, _id: str, **kwargs) -> None:
+        cls._collection.find_one_and_update({"_id": _id}, {"$set": kwargs})
 
     @classmethod
-    async def update(cls, id: int, **kwargs):
-        await cls._collection.find_one_and_update({"_id": id}, {"$set": kwargs})
-        return await cls.get(id)
+    def _create(cls, **kwargs) -> Self:
+        obj = cls._collection.insert_one({"_id": str(ObjectId()), **kwargs})
+        return cls._get(obj.inserted_id)  # type: ignore
 
     @classmethod
-    async def create(cls, **kwargs):
-        if "_id" not in kwargs:
-            kwargs["_id"] = await cls.count() + 1
-        obj = cls(**kwargs)
-        obj = await cls._collection.insert_one(obj.model_dump(by_alias=True))
-        return await cls.get(obj.inserted_id)
+    def _delete(cls, _id: str) -> None:
+        cls._collection.find_one_and_delete({"_id": _id})
 
     @classmethod
-    async def delete(cls, id: int):
-        await cls._collection.find_one_and_delete({"_id": id})
-        return True
+    def set_collection(cls, сollection: Collection) -> None:
+        cls._collection = сollection

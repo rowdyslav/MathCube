@@ -1,9 +1,5 @@
-import bson
-from bson.errors import InvalidId
-from bson.objectid import ObjectId
 from flask import current_app, g
 from flask_pymongo import PyMongo
-from pymongo.errors import DuplicateKeyError, OperationFailure
 from werkzeug.local import LocalProxy
 
 

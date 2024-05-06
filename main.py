@@ -8,7 +8,7 @@ from flask_login import (
     login_user,
     logout_user,
 )
-from werkzeug.security import check_password_hash, generate_password_hash
+from icecream import ic
 
 from config import MONGO_URL
 from database.user import User
@@ -24,8 +24,8 @@ login_manager.init_app(app)
 
 
 @login_manager.user_loader
-def load_user(user_id):
-    return User.get(user_id)
+def load_user(user_id: str):
+    return User._get(user_id)
 
 
 @app.route("/")
@@ -33,21 +33,40 @@ def index():
     return render_template("pages/index.html")
 
 
-@app.route("/register", methods=["GET", "POST"])
-def register():
+@app.route("/signup", methods=["GET", "POST"])
+def signup():
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
 
-        _ = User.create(username, generate_password_hash(password))  # TODO
+        user = User.signup(username, password)
+        if type(user) is User:
+            login_user(user, remember=True)
+        ic(user, current_user)
     elif request.method == "GET":
-        return render_template("pages/register.html")
+        return render_template("pages/signup.html")
+
+    return redirect("/")
+
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+
+        user = User.login(username, password)
+        if type(user) is User:
+            login_user(user, remember=True)
+        ic(user, current_user)
+    elif request.method == "GET":
+        return render_template("pages/login.html")
 
     return redirect("/")
 
 
 @app.route("/generator", methods=["GET", "POST"])
-# @login_required
+@login_required
 def generator():
     category = request.args.get("category", default="sample", type=str)
     if request.method == "POST":
@@ -106,6 +125,7 @@ def generator():
 
 
 @app.route("/from_gia", methods=["GET", "POST"])
+@login_required
 def from_gia():
     form = ProblemTypeForm(problems_types=gia.get_categories())
     if form.validate_on_submit():
@@ -114,6 +134,7 @@ def from_gia():
 
 
 @app.route("/from_gia/<string:catecory_id>", methods=["GET", "POST"])
+@login_required
 def from_gia_catecory_id(catecory_id):
     form = AnswerForm()
     if request.method == "GET":

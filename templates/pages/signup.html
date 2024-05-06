@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form action="/signup" method="post">
+    <div>
+        <input name="username" placeholder="Юзернейм" required />
+    </div>
+
+    <div>
+        <input name="password" placeholder="Пароль" required type="password" />
+    </div>
+
+    <div>
+        <button type="submit">Зарегистрироваться</button>
+    </div>
+</form>
+{% endblock %}
