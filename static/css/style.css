@@ -15,7 +15,8 @@ body {
     border-radius: 20px;
 }
 
-.info-block p, .info-block h3 {
+.info-block p,
+.info-block h3 {
     padding: 0 25px;
 }
 
