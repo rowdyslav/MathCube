@@ -5,4 +5,5 @@
 
 footer {
     background-color: var(--main-color);
+    height: 20vh;
 }

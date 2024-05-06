@@ -1,17 +1,27 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<form action="/signup" method="post">
-    <div>
-        <input name="username" placeholder="Юзернейм" required />
-    </div>
+    <main class="form-signin w-25 m-auto">
+        <form>
+            <img class="mb-4" src="{{ url_for('static', filename='img/logo/g2.png') }}" height="57">
 
-    <div>
-        <input name="password" placeholder="Пароль" required type="password" />
-    </div>
+            <div class="form-floating">
+                <input type="text" class="form-control" id="floatingInput" placeholder="Логин" required>
+                <label for="floatingInput">Логин</label>
+                <div data-lastpass-icon-root=""
+                     style="position: relative !important; height: 0px !important; width: 0px !important; float: left !important;"></div>
+            </div>
 
-    <div>
-        <button type="submit">Зарегистрироваться</button>
-    </div>
-</form>
+            <div class="form-floating">
+                <input type="password" class="form-control" id="floatingPassword" placeholder="Пароль" name="password"
+                       required>
+                <label for="floatingPassword">Пароль</label>
+                <div data-lastpass-icon-root=""
+                     style="position: relative !important; height: 0px !important; width: 0px !important; float: left !important;"></div>
+            </div>
+
+            <button class="w-100 btn btn-lg btn-primary" type="submit">Зарегистрироваться</button>
+
+        </form>
+    </main>
 {% endblock %}
