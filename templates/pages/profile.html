@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <main class="w-75 m-auto align-items-center justify-content-center profile_info">
+        <div class="text-center mb-1">
+            <img src="{{ url_for('static', filename='img/icons/profile_img.png') }}" height="200">
+        </div>
+
+        <h1 class="h3 mb-3 fw-normal text-center">{{ current_user.username }}</h1>
+
+        <div class="text-center">
+            <a href="">
+                <button class="btn btn-outline-primary">Сменить пароль</button>
+            </a>
+        </div>
+
+        <h2 class="h3 my-5 fw-normal text-center">Рейтинг</h2>
+
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab alias aliquam architecto asperiores assumenda blanditiis consequatur cum dolor enim eos et eveniet harum illo inventore ipsa laboriosam, libero minus mollitia nemo nihil placeat praesentium, quae repudiandae sint suscipit ullam, vero. Aliquam aliquid amet at atque autem commodi consequatur, consequuntur deleniti ea, eligendi et illo impedit laboriosam libero minus mollitia natus nesciunt nostrum nulla obcaecati officia porro quis quisquam rem repudiandae rerum, saepe sapiente sed sunt suscipit totam unde veritatis voluptatibus? A dolorem exercitationem nulla quidem? Accusamus aliquid aperiam dolorum ducimus eaque eum laudantium maxime, molestiae molestias odio saepe, soluta voluptatum.
+        </p>
+    </main>
+{% endblock %}

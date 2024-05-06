@@ -23,12 +23,23 @@
         </ul>
     </div>
 
-    <div class="col-md-4 text-end">
-        <a href="/login">
-            <button type="button" class="btn btn-outline-light me-2">Войти</button>
-        </a>
-        <a href="/signup">
-            <button type="button" class="btn btn-light">Регистрация</button>
-        </a>
-    </div>
+    {% if current_user.is_authenticated %}
+        <div class="col-md-4 text-end">
+            <a href="/profile">
+                <button type="button" class="btn btn-light me-2">Личный кабинет</button>
+            </a>
+            <a href="/logout">
+                <button type="button" class="btn btn-light">Выйти</button>
+            </a>
+        </div>
+    {% else %}
+        <div class="col-md-4 text-end">
+            <a href="/login">
+                <button type="button" class="btn btn-outline-light me-2">Войти</button>
+            </a>
+            <a href="/signup">
+                <button type="button" class="btn btn-light">Регистрация</button>
+            </a>
+        </div>
+    {% endif %}
 </header>

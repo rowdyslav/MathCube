@@ -35,6 +35,19 @@ def index():
     )
 
 
+@app.route("/profile")
+@login_required
+def profile():
+    return render_template("pages/profile.html")
+
+
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for("index"))
+
+
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
     if request.method == "POST":

@@ -1,17 +1,33 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<form action="/login" method="post">
-    <div>
-        <input name="username" placeholder="Юзернейм" required />
-    </div>
+    <main class="form-signin w-25 m-auto align-items-center d-flex justify-content-center">
+        <form class="w-100" method="post">
+            <div class="text-center mb-4">
+                <img src="{{ url_for('static', filename='img/logo/g2.png') }}" height="57">
+            </div>
 
-    <div>
-        <input name="password" placeholder="Пароль" required type="password" />
-    </div>
+            <h1 class="h3 mb-3 fw-normal text-center">Авторизация</h1>
 
-    <div>
-        <button type="submit">Войти</button>
-    </div>
-</form>
+            <div class="form-floating">
+                <input name="username" type="text" class="form-control" id="floatingInput" placeholder="Логин" required>
+                <label for="floatingInput">Логин</label>
+                <div data-lastpass-icon-root=""
+                     style="position: relative !important; height: 0px !important; width: 0px !important; float: left !important;">
+                </div>
+            </div>
+
+            <div class="form-floating">
+                <input type="password" class="form-control" id="floatingPassword" placeholder="Пароль" name="password"
+                       required>
+                <label for="floatingPassword">Пароль</label>
+                <div data-lastpass-icon-root=""
+                     style="position: relative !important; height: 0px !important; width: 0px !important; float: left !important;">
+                </div>
+            </div>
+
+            <button class="w-100 btn btn-lg btn-primary" type="submit">Войти</button>
+
+        </form>
+    </main>
 {% endblock %}
