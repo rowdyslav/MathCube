@@ -30,7 +30,9 @@ def load_user(user_id: str):
 
 @app.route("/")
 def index():
-    return render_template("pages/index.html")
+    return render_template(
+        "pages/index.html", is_authenticated=current_user.is_authenticated
+    )
 
 
 @app.route("/signup", methods=["GET", "POST"])
