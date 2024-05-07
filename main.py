@@ -132,16 +132,18 @@ def generator():
 @app.route("/from_gia", methods=["GET", "POST"])
 @login_required
 def from_gia():
-    form = ProblemTypeForm(problems_types=gia.get_categories())
-    if form.validate_on_submit():
-        return redirect(f"from_gia/{form.type.data}")
-    return render_template("pages/from_gia.html", form=form)
+    data = gia.get_categories()
+    if request.method == "POST":
+        return redirect(f"from_gia/{request.form.get("group")}")
+    return render_template("pages/from_gia.html", data=data)
+
+        
+
 
 
 @app.route("/from_gia/<string:catecory_id>", methods=["GET", "POST"])
 @login_required
 def from_gia_catecory_id(catecory_id):
-    form = AnswerForm()
     if request.method == "GET":
         if not session.get("turn"):
             main_problem = random.choice(gia.get_category(catecory_id))
@@ -162,14 +164,13 @@ def from_gia_catecory_id(catecory_id):
         problem = gia.get_problem(session["problem_id"])
         answer = problem["answer"]
 
-    if form.validate_on_submit():
-        if str(problem["answer"]) == str(form.answer.data):
+    if request.method == "POST":
+        if str(problem["answer"]) == str(request.form.get("answer")):
             gia.get_problem(session["problem_id"])
             return redirect(f"/from_gia/{catecory_id}")
         else:
             return render_template(
                 "pages/task.html",
-                form=form,
                 img=problem["condition"]["images"][0],
                 answer=answer,
                 message="Неверно, попробуй ещё",
@@ -177,7 +178,6 @@ def from_gia_catecory_id(catecory_id):
 
     return render_template(
         "pages/task.html",
-        form=form,
         img=problem["condition"]["images"][0],
         answer=answer,
     )

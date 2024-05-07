@@ -6,22 +6,10 @@
     {{message}}
     <img alt="Задача" class="tex" src='{{ img }}'' style="vertical-align:-8.4pt">
     <form action="" method="post" enctype="multipart/form-data">
-        <div>
-        {{ form.hidden_tag() }}
-        {{ form.csrf_token }}
-        </div>
-        {% for field in form if field.name not in [ "csrf_token", "submit" ] %}
-            <div>
-            {{ field.label() }}
-            {{ field(class="form-control") }}
-            {% for error in field.errors %}
-                <div class="error">{{ error }}</div>
-            {% endfor %}
-            </div>
-        {% endfor %}
-        <br>
-        <br>
-        <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+        <label for="answer">Имя пользователя</label><br>
+        <input class="form-control" id="answer" name="answer" required type="text" value=""><br>
+        
+        <p><input class="btn btn-primary" id="submit" name="submit" type="submit" value="Выбрать"></p>
     </form>
 </div>
 {% endblock %}

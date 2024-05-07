@@ -2,21 +2,14 @@
 
 {% block content %}
 <h1>Выберите тип задачи</h1>
-<form action="" method="post" enctype="multipart/form-data">
-    {{ form.hidden_tag() }}
-    <div>
-        {{ form.csrf_token }}
-    </div>
-    {% for field in form if field.name not in ("csrf_token", "submit") %}
-    <div>
-        {{ field(class="form-control") }}
-        {% for error in field.errors %}
-        <div class="error">{{ error }}</div>
-        {% endfor %}
-    </div>
-    {% endfor %}
-    <br>
-    <br>
-    <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+<form method="post" enctype="multipart/form-data">
+    <label for="group">Выберите категорию</label><br>
+    <select class="form-control" id="group" name="group" type="group">
+        {%for item in data%}
+        <option value="{{item[0]}}">{{item[1]}}</option>
+        {%endfor%}
+    </select>
+    <br></p>
+    <p><input class="btn btn-primary" id="submit" name="submit" type="submit" value="Выбрать"></p>
 </form>
 {% endblock %}
