@@ -1,13 +1,7 @@
 import random
 
-from flask import Flask, flash, g, redirect, render_template, request, session, url_for
-from flask_login import (
-    LoginManager,
-    current_user,
-    login_required,
-    login_user,
-    logout_user,
-)
+from flask import Flask, flash, redirect, render_template, request, session, url_for
+from flask_login import LoginManager, login_required, login_user, logout_user
 from icecream import ic
 
 from config import MONGO_URL
@@ -30,9 +24,7 @@ def load_user(user_id: str):
 
 @app.route("/")
 def index():
-    return render_template(
-        "pages/index.html", is_authenticated=current_user.is_authenticated
-    )
+    return render_template("pages/index.html")
 
 
 @app.route("/profile")
@@ -57,7 +49,6 @@ def signup():
         user = User.signup(username, password)
         if type(user) is User:
             login_user(user, remember=True)
-        ic(user, current_user)
     elif request.method == "GET":
         return render_template("pages/signup.html")
 
@@ -73,7 +64,6 @@ def login():
         user = User.login(username, password)
         if type(user) is User:
             login_user(user, remember=True)
-        ic(user, current_user)
     elif request.method == "GET":
         return render_template("pages/login.html")
 
