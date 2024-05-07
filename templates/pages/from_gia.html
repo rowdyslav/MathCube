@@ -5,8 +5,8 @@
 <form method="post" enctype="multipart/form-data">
     <label for="group">Выберите категорию</label><br>
     <select class="form-control" id="group" name="group" type="group">
-        {%for item in data%}
-        <option value="{{item[0]}}">{{item[1]}}</option>
+        {%for category in categories%}
+        <option value="{{category[0]}}">{{category[1]}}</option>
         {%endfor%}
     </select>
     <br></p>

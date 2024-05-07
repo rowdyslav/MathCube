@@ -131,10 +131,10 @@ def generator():
 @app.route("/from_gia", methods=["GET", "POST"])
 @login_required
 def from_gia():
-    data = gia.get_categories()
+    categories = gia.get_categories()
     if request.method == "POST":
         return redirect(f"from_gia/{request.form.get("group")}")
-    return render_template("pages/from_gia.html", data=data)
+    return render_template("pages/from_gia.html", categories=categories)
 
         
 
