@@ -136,9 +136,6 @@ def from_gia():
         return redirect(f"from_gia/{request.form.get("group")}")
     return render_template("pages/from_gia.html", categories=categories)
 
-        
-
-
 
 @app.route("/from_gia/<string:catecory_id>", methods=["GET", "POST"])
 @login_required
