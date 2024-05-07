@@ -1,45 +1,71 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container py-4">
-    <div class="d-flex justify-content-center mb-2">
-        <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
-            <img class="header-logo" src="{{ url_for('static', filename='img/logo/g2.png') }}" height="100" role="img">
-        </a>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Выберите режим</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-footer">
+                    <a href="/generator" class="btn btn-primary w-100">Генератор</a>
+                    <a href="/from_gia" class="btn btn-primary w-100">ГИА</a>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="d-flex justify-content-center mb-2">
-        <h1>Мастерство достигается только путем тренировок.</h1>
-    </div>
-    <div class="d-flex justify-content-center">
-        <p class="mb-5">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis consequatur cum dolor dolores ex
-            explicabo, fugit ipsam labore maiores nesciunt rem saepe sed sint totam voluptatum? Accusamus
-            consectetur et illum modi quis! A blanditiis culpa dignissimos dolore dolores ea error exercitationem
-            fugit hic itaque laboriosam laborum nostrum nulla officia quae quam, quas quasi repellendus sit soluta
-            tempora unde voluptatibus. Autem consectetur consequuntur delectus, doloremque laborum nam quo soluta!
-            Accusantium aliquam, aperiam autem dolor eveniet, ipsa odio perspiciatis ratione rerum sed soluta
-            suscipit voluptates. Architecto eius iste odit qui quidem quis saepe tempora! Aperiam facilis minima,
-            odit porro sit tempora voluptatibus.
-        </p>
-    </div>
-    <div class="d-flex justify-content-center info-block mx-5">
-        <img src="{{ url_for('static', filename='img/logo/function.png') }}" class="function-picture">
-        <div class="col-6 my-auto">
-            <h3>Проверь свои навыки</h3>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusamus aperiam debitis deserunt
-                dignissimos dolor, dolorem ea earum eum excepturi, facere fuga fugiat fugit ipsum iure iusto labore
-                laudantium magni minima necessitatibus, nemo nostrum officia optio quam quas quasi quibusdam
-                recusandae
-                reprehenderit rerum suscipit ut vel veritatis vitae voluptatem voluptatum!
+
+    <div class="container py-4">
+        <div class="d-flex justify-content-center mb-2">
+            <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
+                <img class="header-logo" src="{{ url_for('static', filename='img/logo/g2.png') }}" height="100"
+                     role="img">
+            </a>
+        </div>
+        <div class="d-flex justify-content-center mb-2">
+            <h1>Мастерство достигается только путем тренировок.</h1>
+        </div>
+        <div class="d-flex justify-content-center">
+            <p class="mb-5">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis consequatur cum dolor dolores ex
+                explicabo, fugit ipsam labore maiores nesciunt rem saepe sed sint totam voluptatum? Accusamus
+                consectetur et illum modi quis! A blanditiis culpa dignissimos dolore dolores ea error exercitationem
+                fugit hic itaque laboriosam laborum nostrum nulla officia quae quam, quas quasi repellendus sit soluta
+                tempora unde voluptatibus. Autem consectetur consequuntur delectus, doloremque laborum nam quo soluta!
+                Accusantium aliquam, aperiam autem dolor eveniet, ipsa odio perspiciatis ratione rerum sed soluta
+                suscipit voluptates. Architecto eius iste odit qui quidem quis saepe tempora! Aperiam facilis minima,
+                odit porro sit tempora voluptatibus.
             </p>
         </div>
-        <div class="col-6 my-5">
-            <img src="{{ url_for('static', filename='img/logo/math_picture.jpg') }}" class="info-block-picture">
+        <div class="d-flex justify-content-center info-block mx-5">
+            <img src="{{ url_for('static', filename='img/logo/function.png') }}" class="function-picture">
+            <div class="col-6 my-auto">
+                <h3>Проверь свои навыки</h3>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusamus aperiam debitis deserunt
+                    dignissimos dolor, dolorem ea earum eum excepturi, facere fuga fugiat fugit ipsum iure iusto labore
+                    laudantium magni minima necessitatibus, nemo nostrum officia optio quam quas quasi quibusdam
+                    recusandae
+                    reprehenderit rerum suscipit ut vel veritatis vitae voluptatem voluptatum!
+                </p>
+            </div>
+            <div class="col-6 my-5">
+                <img src="{{ url_for('static', filename='img/logo/math_picture.jpg') }}" class="info-block-picture">
+            </div>
+        </div>
+        <div class="d-flex justify-content-center my-5">
+            {% if current_user.is_authenticated %}
+                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Начать решать
+                </button>
+            {% else %}
+                <a class="btn btn-outline-primary" href="/login">
+                    Начать решать
+                </a>
+            {% endif %}
         </div>
     </div>
-    <div class="d-flex justify-content-center my-5">
-        <button class="btn btn-outline-primary">Начать решать</button>
-    </div>
-</div>
+
+    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
 {% endblock %}
