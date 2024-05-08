@@ -16,7 +16,7 @@ def get_categories(topic_id="6") -> list[tuple[str, str]] | None:
             for category in item["categories"]:
                 answer.append((category["category_id"], category["category_name"]))
             return answer
-    return
+    return [(0, 'Произошла ошибка')]
 
 
 def get_category(category_id):
