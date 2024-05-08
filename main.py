@@ -1,16 +1,17 @@
 import random
 
-from flask import Flask, flash, redirect, render_template, request, session, url_for
+from flask import (Flask, flash, redirect, render_template, request, session,
+                   url_for)
 from flask_login import LoginManager, login_required, login_user, logout_user
 from icecream import ic
 
-from config import MONGO_URL
+from config import MONGO_URI, SECRET_KEY
 from database.user import User
 from misc import gia, quadratic_equation, sample
 
 app = Flask(__name__)
-app.secret_key = "your_secret_key"
-app.config["MONGO_URI"] = MONGO_URL
+app.secret_key = SECRET_KEY
+app.config["MONGO_URI"] = MONGO_URI
 
 login_manager = LoginManager()
 login_manager.init_app(app)
