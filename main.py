@@ -26,6 +26,10 @@ def load_user(user_id: str):
 def index():
     return render_template("pages/index.html")
 
+@app.errorhandler(401)
+def unauthorized(e):
+    flash('Требуется авторизация')
+    return redirect(url_for('signup'))
 
 @app.route("/profile")
 @login_required
@@ -46,9 +50,11 @@ def signup():
         username = request.form["username"]
         password = request.form["password"]
 
-        user = User.signup(username, password)
-        if type(user) is User:
-            login_user(user, remember=True)
+        result = User.signup(username, password)
+        if type(result) is User:
+            login_user(result, remember=True)
+        elif type(result) is str:
+            flash(result)
     elif request.method == "GET":
         return render_template("pages/signup.html")
 
@@ -61,9 +67,11 @@ def login():
         username = request.form["username"]
         password = request.form["password"]
 
-        user = User.login(username, password)
-        if type(user) is User:
-            login_user(user, remember=True)
+        result = User.login(username, password)
+        if type(result) is User:
+            login_user(result, remember=True)
+        elif type(result) is str:
+            flash(result)
     elif request.method == "GET":
         return render_template("pages/login.html")
 
