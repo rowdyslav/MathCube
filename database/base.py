@@ -1,4 +1,4 @@
-from typing import Self
+from typing import Literal, Self
 
 from bson import ObjectId
 from pymongo.collection import Collection
@@ -13,12 +13,21 @@ class Base:
         return cls(**obj) if obj else None
 
     @classmethod
-    def _update(cls, _id: str, **kwargs) -> None:
-        cls._collection.find_one_and_update({"_id": _id}, {"$set": kwargs})
+    def _update(cls, _id: str, operation: Literal["$set", "$inc"], **kwargs) -> None:
+        cls._collection.find_one_and_update({"_id": _id}, {operation: kwargs})
 
     @classmethod
     def _create(cls, **kwargs) -> Self:
-        obj = cls._collection.insert_one({"_id": str(ObjectId()), **kwargs})
+        obj = cls._collection.insert_one(
+            {
+                "_id": str(ObjectId()),
+                "statistic": {
+                    key: {"correct": 0, "all": 0}
+                    for key in ("sample", "quadratic_equation")
+                },
+                **kwargs,
+            }
+        )
         return cls._get(obj.inserted_id)  # type: ignore
 
     @classmethod

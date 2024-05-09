@@ -2,7 +2,8 @@ import random
 
 from flask import (Flask, flash, redirect, render_template, request, session,
                    url_for)
-from flask_login import LoginManager, login_required, login_user, logout_user
+from flask_login import (LoginManager, current_user, login_required,
+                         login_user, logout_user)
 from icecream import ic
 
 from config import MONGO_URI, SECRET_KEY
@@ -78,63 +79,64 @@ def login():
     return redirect("/")
 
 
-@app.route("/generator", methods=["GET", "POST"])
+@app.route("/generator", methods=["POST"])
 @login_required
-def generator():
+def generator_post():
     category = request.args.get("category", default="sample", type=str)
-    if request.method == "POST":
-        user_answer1 = float(request.form.get("answer1"))
-        user_answer2 = request.form.get("answer2")
-        if user_answer2:
-            user_answer2 = float(user_answer2)
+    user_answer1 = float(request.form.get("answer1"))  # type: ignore
+    user_answer2 = request.form.get("answer2")
+    if user_answer2:
+        user_answer2 = float(user_answer2)
 
-        correct_answer = request.form.get("correct_answer")
+    correct_answer : str = request.form.get("correct_answer")  # type: ignore
 
-        if category == "sample":
-            correct = user_answer1 == float(correct_answer)
-        elif category == "quadratic":
-            correct_answers = {float(x) for x in correct_answer.split("|")}
-            correct = len(correct_answers & {user_answer1, user_answer2}) == len(
-                correct_answers
-            )
+    if category == "sample":
+        correct = user_answer1 == float(correct_answer)
+    elif category == "quadratic_equation":
+        correct_answers = {float(x) for x in correct_answer.split("|")}
+        correct = len(correct_answers & {user_answer1, user_answer2}) == len(correct_answers)
+    new_stat = {f"statistic.{category}.all": 1}
 
-        if correct:
-            flash("Верно!")
-        else:
-            flash("Неправильно!")
-        return redirect(url_for("generator", category=category))
+    if correct:
+        flash("Верно!")
+        new_stat[f"statistic.{category}.correct"] = 1
+    else:
+        flash("Неправильно!")
 
-    elif request.method == "GET":
-        if category == "sample":
-            problem = sample.generate()
-            correct_answer = eval(problem)
+    User._update(current_user._id, "$inc", **new_stat)
+    return redirect(url_for("generator_get", category=category))
 
-            return render_template(
-                "pages/generator.html",
-                problem=problem,
-                correct_answer=correct_answer,
-                category=category,
-            )
-        elif category == "quadratic":
-            difficulty = request.args.get("difficulty", default=0, type=int)
-
-            a, b, c = quadratic_equation.generate_coefficients(difficulty)
-            correct_answer = quadratic_equation.get_roots(a, b, c)
-            problem = quadratic_equation.format(a, b, c)
-
-            if isinstance(correct_answer, float):
-                correct_answer = correct_answer
-            else:
-                correct_answer = f"{correct_answer[0]}|{correct_answer[1]}"
-
-            return render_template(
-                "pages/generator.html",
-                problem=problem,
-                correct_answer=correct_answer,
-                category=category,
-                difficulty=difficulty,
-            )
+@app.route("/generator", methods=["GET"])
+@login_required
+def generator_get():
+    category = request.args.get("category", default="sample", type=str)
+    if category == "sample":
+        problem = sample.generate()
+        correct_answer = eval(problem)
+        return render_template(
+            "pages/generator.html",
+            problem=problem,
+            correct_answer=correct_answer,
+            category=category,
+        )
+    elif category == "quadratic_equation":
+        difficulty = request.args.get("difficulty", default=0, type=int)
+        a, b, c = quadratic_equation.generate_coefficients(difficulty)
+        correct_answer = quadratic_equation.get_roots(a, b, c)
+        problem = quadratic_equation.format(a, b, c)
+        if type(correct_answer) is float:
+            correct_answer = correct_answer
+        elif type(correct_answer) is tuple:
+            correct_answer = f"{correct_answer[0]}|{correct_answer[1]}"
+        return render_template(
+            "pages/generator.html",
+            problem=problem,
+            correct_answer=correct_answer,
+            category=category,
+            difficulty=difficulty,
+        )
     return redirect("/", 400)
+
 
 
 @app.route("/from_gia", methods=["GET", "POST"])

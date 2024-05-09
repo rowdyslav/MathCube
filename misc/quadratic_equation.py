@@ -6,17 +6,18 @@ from icecream import ic
 
 def randcoef(a: int, b: int) -> int:
     "Аналог функции random.randint, который не допускает нули"
-    while True:
+    result = randint(a, b)
+    while result == 0:
         result = randint(a, b)
-        if result != 0:
-            return result
+    ic(a, b, result)
+    return result
 
 
 def generate_coefficients(difficulty: int) -> tuple[int, int, int]:
     while True:
         match difficulty:
             case 0:
-                a = randcoef(1, 5)
+                a = randcoef(-2, 5)
                 b = 0
                 c = randcoef(-5, 5)
             case 1:

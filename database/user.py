@@ -12,6 +12,7 @@ class User(UserMixin, Base):
     _id: str
     username: str
     password: str
+    statistic: dict[str, dict[str, int]]
 
     def get_id(self):
         return self._id
