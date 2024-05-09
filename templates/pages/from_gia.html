@@ -1,15 +1,18 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Выберите тип задачи</h1>
-<form method="post" enctype="multipart/form-data">
-    <label for="group">Выберите категорию</label><br>
-    <select class="form-control" id="group" name="group" type="group">
-        {%for category in categories%}
-        <option value="{{category[0]}}">{{category[1]}}</option>
-        {%endfor%}
-    </select>
-    <br></p>
-    <p><input class="btn btn-primary" id="submit" name="submit" type="submit" value="Выбрать"></p>
-</form>
+
+    <h1 class="w-100 text-center my-5">Выберите тип задачи</h1>
+
+    <form method="post" enctype="multipart/form-data" class="w-25 mx-auto">
+        <select class="form-control" id="group" name="group" type="group">
+            {% for category in categories %}
+                <option value="{{ category[0] }}">{{ category[1] }}</option>
+            {% endfor %}
+        </select>
+        <div class="mx-auto w-25 my-2">
+            <input class="btn btn-primary w-100" id="submit" name="submit" type="submit" value="Выбрать">
+        </div>
+    </form>
+
 {% endblock %}
