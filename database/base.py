@@ -13,6 +13,11 @@ class Base:
         return cls(**obj) if obj else None
 
     @classmethod
+    def _getall(cls) -> list[Self]:
+        objs = [cls(**document) for document in cls._collection.find({})]
+        return objs
+
+    @classmethod
     def _update(cls, _id: str, operation: Literal["$set", "$inc"], **kwargs) -> None:
         cls._collection.find_one_and_update({"_id": _id}, {operation: kwargs})
 

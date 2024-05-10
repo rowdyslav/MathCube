@@ -78,6 +78,24 @@ def login():
 
     return redirect("/")
 
+@app.route("/leaderboard")
+def leaderboard():
+    all_users = User._getall()
+    
+    def percentage_sorter(user: User):
+        a = sum((statistic['all'] for _, statistic in user.statistic.items()))
+        b = sum((statistic['correct'] for _, statistic in user.statistic.items()))
+        return b / a if b != 0 else 0
+
+    def quantity_sorter(user: User):
+        a = sum((statistic['correct'] for _, statistic in user.statistic.items()))
+        return a
+
+    return render_template(
+        "leaderboard.html",
+        percentage=sorted(all_users, key=percentage_sorter, reverse=True),
+        quantity=sorted(all_users, key=quantity_sorter, reverse=True)
+    )
 
 @app.route("/generator", methods=["POST"])
 @login_required
@@ -106,7 +124,7 @@ def generator_post():
     User._update(current_user._id, "$inc", **new_stat)
     return redirect(url_for("generator_get", category=category))
 
-@app.route("/generator", methods=["GET"])
+@app.route("/generator")
 @login_required
 def generator_get():
     category = request.args.get("category", default="sample", type=str)
