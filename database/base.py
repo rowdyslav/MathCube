@@ -23,17 +23,16 @@ class Base:
 
     @classmethod
     def _create(cls, **kwargs) -> Self:
-        obj = cls._collection.insert_one(
-            {
-                "_id": str(ObjectId()),
-                "statistic": {
-                    key: {"correct": 0, "all": 0}
-                    for key in ("sample", "quadratic_equation")
-                },
-                **kwargs,
-            }
-        )
-        return cls._get(obj.inserted_id)  # type: ignore
+        fields = {
+            "_id": str(ObjectId()),
+            "statistic": {
+                category: {"correct": 0, "all": 0}
+                for category in ("sample", "quadratic_equation")
+            },
+            **kwargs,
+        }
+        cls._collection.insert_one(fields)
+        return cls(**fields)
 
     @classmethod
     def _delete(cls, _id: str) -> None:
