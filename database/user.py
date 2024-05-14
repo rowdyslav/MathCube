@@ -28,10 +28,10 @@ class User(UserMixin, Base):
 
     @classmethod
     def login(cls, username: str, password: str) -> Self | str:
-        user = cls._collection.find_one({"username": username})
-        if not user or not check_password_hash(user["password"], password):
+        document = cls._collection.find_one({"username": username})
+        if not document or not check_password_hash(document["password"], password):
             return "Неверный никнейм или пароль!"
-        return cls._get(user["_id"])  # type: ignore
+        return cls(**document)
 
 
 from main import app
