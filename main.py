@@ -175,7 +175,7 @@ def from_gia_catecory_id(catecory_id):
 
     problem = gia.get_problem(session["problem_id"])
     answer = problem["answer"]
-    while not len(answer):
+    while not len(answer) or answer == '.' or 'O' in answer or 'О' in answer:
         session["problem_id"] = session["turn"].pop(0)
         problem = gia.get_problem(session["problem_id"])
         answer = problem["answer"]
