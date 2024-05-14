@@ -174,6 +174,8 @@ def from_gia_catecory_id(catecory_id):
         session["problem_id"] = session["turn"].pop(0)
 
     problem = gia.get_problem(session["problem_id"])
+    import pprint
+    pprint.pprint(problem)
     answer = problem["answer"]
     while not len(answer) or answer == '.' or 'O' in answer or 'О' in answer:
         session["problem_id"] = session["turn"].pop(0)
@@ -181,7 +183,7 @@ def from_gia_catecory_id(catecory_id):
         answer = problem["answer"]
 
     if request.method == "POST":
-        if str(problem["answer"]) == str(request.form.get("answer")):
+        if float(problem["answer"].replace(',', '.')) == float(request.form.get("answer").replace(',', '.')):
             gia.get_problem(session["problem_id"])
             return redirect(f"/from_gia/{catecory_id}")
         else:
@@ -195,6 +197,7 @@ def from_gia_catecory_id(catecory_id):
     return render_template(
         "pages/task.html",
         img=problem["condition"]["images"][0],
+        problem_text=problem["condition"]["text"],
         answer=answer,
     )
 
