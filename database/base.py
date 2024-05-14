@@ -18,7 +18,9 @@ class Base:
         return objs
 
     @classmethod
-    def _update(cls, _id: str, operation: Literal["$set", "$inc"], **kwargs) -> None:
+    def _update(
+        cls, _id: str, operation: Literal["$set", "$inc"], **kwargs: str | int
+    ) -> None:
         cls._collection.find_one_and_update({"_id": _id}, {operation: kwargs})
 
     @classmethod

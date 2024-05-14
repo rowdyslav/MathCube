@@ -4,11 +4,13 @@ from flask import (Flask, flash, redirect, render_template, request, session,
                    url_for)
 from flask_login import (LoginManager, current_user, login_required,
                          login_user, logout_user)
-from icecream import ic
 
 from config import MONGO_URI, SECRET_KEY
 from database.user import User
 from misc import gia, quadratic_equation, sample
+
+# from icecream import ic
+
 
 app = Flask(__name__)
 app.secret_key = SECRET_KEY
@@ -27,10 +29,34 @@ def load_user(user_id: str):
 def index():
     return render_template("pages/index.html")
 
+@app.route("/signup", methods=["GET", "POST"])
+@app.route("/login", methods=["GET", "POST"])
+def auth():
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+        if "signup" in request.path:
+            result = User.signup(username, password)
+        else:
+            result = User.login(username, password)
+        if isinstance(result, User):
+            login_user(result, remember=True)
+        elif isinstance(result, str):
+            flash(result)
+        return redirect(url_for("index"))
+    elif request.method == "GET":
+        if "signup" in request.path:
+            return render_template("pages/signup.html")
+        else:
+            return render_template("pages/login.html")
+
+    return redirect(url_for("index"))
+
+
 @app.errorhandler(401)
 def unauthorized(e):
     flash('Требуется авторизация')
-    return redirect(url_for('signup'))
+    return redirect('/signup')
 
 @app.route("/profile")
 @login_required
@@ -43,40 +69,6 @@ def profile():
 def logout():
     logout_user()
     return redirect(url_for("index"))
-
-
-@app.route("/signup", methods=["GET", "POST"])
-def signup():
-    if request.method == "POST":
-        username = request.form["username"]
-        password = request.form["password"]
-
-        result = User.signup(username, password)
-        if type(result) is User:
-            login_user(result, remember=True)
-        elif type(result) is str:
-            flash(result)
-    elif request.method == "GET":
-        return render_template("pages/signup.html")
-
-    return redirect("/")
-
-
-@app.route("/login", methods=["GET", "POST"])
-def login():
-    if request.method == "POST":
-        username = request.form["username"]
-        password = request.form["password"]
-
-        result = User.login(username, password)
-        if type(result) is User:
-            login_user(result, remember=True)
-        elif type(result) is str:
-            flash(result)
-    elif request.method == "GET":
-        return render_template("pages/login.html")
-
-    return redirect("/")
 
 @app.route("/leaderboard")
 def leaderboard():
@@ -101,27 +93,26 @@ def leaderboard():
 @login_required
 def generator_post():
     category = request.args.get("category", default="sample", type=str)
-    user_answer1 = float(request.form.get("answer1"))  # type: ignore
-    user_answer2 = request.form.get("answer2")
-    if user_answer2:
-        user_answer2 = float(user_answer2)
+    user_answer1: str = request.form.get("answer1") # type: ignore
+    user_answer2: str | None = request.form.get("answer2")
 
-    correct_answer : str = request.form.get("correct_answer")  # type: ignore
+    correct_answer: str = request.form.get("correct_answer") # type: ignore
 
     if category == "sample":
-        correct = user_answer1 == float(correct_answer)
+        is_correct = user_answer1 == float(correct_answer)
     elif category == "quadratic_equation":
-        correct_answers = {float(x) for x in correct_answer.split("|")}
-        correct = len(correct_answers & {user_answer1, user_answer2}) == len(correct_answers)
-    new_stat = {f"statistic.{category}.all": 1}
+        correct_answers = {float(str_answer) for str_answer in correct_answer.split("|")}
+        user_answers = {float(str_answer) for str_answer in (user_answer1, user_answer2) if str_answer}
+        is_correct = correct_answers == user_answers
+    inc_stat = {f"statistic.{category}.all": 1}
 
-    if correct:
+    if is_correct:
         flash("Верно!")
-        new_stat[f"statistic.{category}.correct"] = 1
+        inc_stat[f"statistic.{category}.correct"] = 1
     else:
         flash("Неправильно!")
 
-    User._update(current_user._id, "$inc", **new_stat)
+    User._update(current_user._id, "$inc", **inc_stat)
     return redirect(url_for("generator_get", category=category))
 
 @app.route("/generator")
