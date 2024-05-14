@@ -24,7 +24,7 @@ class Base:
         cls._collection.find_one_and_update({"_id": _id}, {operation: kwargs})
 
     @classmethod
-    def _create(cls, **kwargs) -> Self:
+    def _create(cls, **kwargs: str) -> Self:
         fields = {
             "_id": str(ObjectId()),
             "statistic": {
