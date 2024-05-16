@@ -84,7 +84,7 @@ def leaderboard():
         return a
 
     return render_template(
-        "leaderboard.html",
+        "pages/leaderboard.html",
         percentage=sorted(all_users, key=percentage_sorter, reverse=True),
         quantity=sorted(all_users, key=quantity_sorter, reverse=True)
     )
