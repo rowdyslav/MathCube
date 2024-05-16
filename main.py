@@ -79,14 +79,25 @@ def leaderboard():
         b = sum((statistic['correct'] for _, statistic in user.statistic.items()))
         return b / a if b != 0 else 0
 
+    def get_nice_percentage(user: User) -> float:
+        a = sum((statistic['all'] for _, statistic in user.statistic.items()))
+        b = sum((statistic['correct'] for _, statistic in user.statistic.items()))
+        return float(str(b / a * 100)[:4]) if b != 0 else 0
+
     def get_quantity(user: User) -> int:
         return sum((statistic['correct'] for _, statistic in user.statistic.items()))
 
-    users_data = [(user.username, get_percentage(user), get_quantity(user)) for user in all_users]
+    percentage = [
+        (user.username, get_nice_percentage(user)) for user in sorted(all_users, key=get_percentage, reverse=True)
+    ]
+    quantity = [
+        (user.username, get_quantity(user)) for user in sorted(all_users, key=get_quantity, reverse=True)
+    ]
 
     return render_template(
         "pages/leaderboard.html",
-        users_data=users_data
+        percentage=percentage,
+        quantity=quantity,
     )
 
 @app.route("/generator", methods=["POST"])

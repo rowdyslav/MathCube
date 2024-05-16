@@ -2,27 +2,70 @@
 
 {% block content %}
     <div class="container">
-        <table class="table table-striped w-75 mx-auto text-center">
+        <div class="text-center mt-5 mb-2">
+            <button class="btn btn-primary" id="percentageButton" disabled>Процент решенных задач</button>
+            <button class="btn btn-primary" id="quantityButton">Количество решенных задач</button>
+        </div>
+
+        <table id="leaderboardTablePercentage" class="table table-striped w-75 mx-auto text-center">
             <thead>
             <tr>
-                <th scope="col">Место</th>
-                <th scope="col">Имя</th>
-                <th scope="col">
-                    <a href="?sort=percent_asc">Процент решенных задач &#8593;</a>
-                </th>
-                <th scope="col">
-                    <a href="?sort=quantity_asc">Количество решенных задач &#8593;</a>
-                </th>
+                <th scope="col" width="20%">Место</th>
+                <th scope="col" width="20%">Имя</th>
+                <th scope="col" width="60%">Процент решенных задач</th>
             </tr>
             </thead>
             <tbody>
             {% for user in percentage %}
                 <tr>
-                    <th scope="row">{{ loop.index }}</th>
-                    <td>{{ user.username }}</td>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ user[0] }}</td>
+                    <td>{{ user[1] }}%</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <table id="leaderboardTableQuantity" class="table table-striped w-75 mx-auto text-center" style="display: none;">
+            <thead>
+            <tr>
+                <th scope="col" width="20%">Место</th>
+                <th scope="col" width="20%">Имя</th>
+                <th scope="col" width="60%">Количество решенных задач</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for user in quantity %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ user[0] }}</td>
+                    <td>{{ user[1] }}</td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const percentageButton = document.getElementById('percentageButton');
+            const quantityButton = document.getElementById('quantityButton');
+            const percentageTable = document.getElementById('leaderboardTablePercentage');
+            const quantityTable = document.getElementById('leaderboardTableQuantity');
+
+            percentageButton.addEventListener('click', function () {
+                percentageTable.style.display = 'table';
+                quantityTable.style.display = 'none';
+                percentageButton.disabled = true
+                quantityButton.disabled = false
+            });
+
+            quantityButton.addEventListener('click', function () {
+                quantityTable.style.display = 'table';
+                percentageTable.style.display = 'none';
+                quantityButton.disabled = true
+                percentageButton.disabled = false
+            });
+        });
+    </script>
 {% endblock %}
