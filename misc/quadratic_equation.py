@@ -9,7 +9,6 @@ def randcoef(a: int, b: int) -> int:
     result = randint(a, b)
     while result == 0:
         result = randint(a, b)
-    ic(a, b, result)
     return result
 
 

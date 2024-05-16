@@ -113,7 +113,7 @@ def generator_post():
         flash("Неправильно!")
 
     User._update(current_user._id, "$inc", **inc_stat)
-    return redirect(url_for("generator_get", category=category))
+    return redirect(url_for("generator_get", category=category, difficulty=request.args.get("difficulty", default=0, type=int)))
 
 @app.route("/generator")
 @login_required
@@ -133,9 +133,7 @@ def generator_get():
         a, b, c = quadratic_equation.generate_coefficients(difficulty)
         correct_answer = quadratic_equation.get_roots(a, b, c)
         problem = quadratic_equation.format(a, b, c)
-        if type(correct_answer) is float:
-            correct_answer = correct_answer
-        elif type(correct_answer) is tuple:
+        if isinstance(correct_answer, tuple):
             correct_answer = f"{correct_answer[0]}|{correct_answer[1]}"
         return render_template(
             "pages/generator.html",
