@@ -1,10 +1,8 @@
-from random import choice, randint
+from typing import Literal
+
+from maths_question_generator.arithmetic import Arithmetic
 
 
-def generate():
-    number1 = randint(1, 10)
-    number2 = randint(1, 10)
-    operation = choice(["+", "-", "*"])
-
-    problem = f"{number1} {operation} {number2}"
-    return problem
+def generate(opers: list[Literal["+", "-", "*", "/"]]) -> tuple[str, int]:
+    a = Arithmetic(opers=opers).base()
+    return a["question"], a["answer"]
