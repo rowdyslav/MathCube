@@ -113,15 +113,15 @@ def generator_post():
         flash("Неправильно!")
 
     User._update(current_user._id, "$inc", **inc_stat)
-    return redirect(url_for("generator_get", category=category, difficulty=request.args.get("difficulty", default=0, type=int)))
+    return redirect(url_for("generator_get", category=category))
 
 @app.route("/generator")
 @login_required
 def generator_get():
     category = request.args.get("category", default="sample", type=str)
     if category == "sample":
-        problem = sample.generate()
-        correct_answer = eval(problem)
+        opers = ... # TODO
+        problem, correct_answer = sample.generate(opers)
         return render_template(
             "pages/generator.html",
             problem=problem,
@@ -129,7 +129,7 @@ def generator_get():
             category=category,
         )
     elif category == "quadratic_equation":
-        difficulty = request.args.get("difficulty", default=0, type=int)
+        difficulty = ... # TODO
         a, b, c = quadratic_equation.generate_coefficients(difficulty)
         correct_answer = quadratic_equation.get_roots(a, b, c)
         problem = quadratic_equation.format(a, b, c)
