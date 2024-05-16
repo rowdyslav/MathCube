@@ -73,20 +73,20 @@ def logout():
 @app.route("/leaderboard")
 def leaderboard():
     all_users = User._getall()
-    
-    def percentage_sorter(user: User):
+
+    def get_percentage(user: User) -> float:
         a = sum((statistic['all'] for _, statistic in user.statistic.items()))
         b = sum((statistic['correct'] for _, statistic in user.statistic.items()))
         return b / a if b != 0 else 0
 
-    def quantity_sorter(user: User):
-        a = sum((statistic['correct'] for _, statistic in user.statistic.items()))
-        return a
+    def get_quantity(user: User) -> int:
+        return sum((statistic['correct'] for _, statistic in user.statistic.items()))
+
+    users_data = [(user.username, get_percentage(user), get_quantity(user)) for user in all_users]
 
     return render_template(
         "pages/leaderboard.html",
-        percentage=sorted(all_users, key=percentage_sorter, reverse=True),
-        quantity=sorted(all_users, key=quantity_sorter, reverse=True)
+        users_data=users_data
     )
 
 @app.route("/generator", methods=["POST"])
