@@ -117,8 +117,8 @@ def generator_post():
                 correct_answers = {float(str_answer) for str_answer in correct_answer.split("|")}
                 user_answers = {float(str_answer) for str_answer in (user_answer1, user_answer2) if str_answer}
                 is_correct = correct_answers == user_answers
-        
-                inc_stat = {f"statistic.{category}.all": 1}
+
+            inc_stat = {f"statistic.{category}.all": 1}
 
             if is_correct:
                 flash("Верно!")
