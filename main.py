@@ -110,7 +110,7 @@ def generator_post():
     correct_answer: str = request.form.get("correct_answer") # type: ignore
 
     if category == "sample":
-        match request.form["sumbit_btn"]:
+        match request.form["submit_btn"]:
             case 'answer': 
                 is_correct = user_answer1 == correct_answer
             case 'apply':
