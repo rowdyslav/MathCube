@@ -33,6 +33,7 @@ def load_user(user_id: str):
 @app.route("/")
 def index():
     session.pop('_flashes', None)
+    session.pop('quadratic_equation_difficulty')
 
     return render_template("pages/index.html")
 
