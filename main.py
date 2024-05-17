@@ -5,6 +5,7 @@ from flask import (Flask, flash, redirect, render_template, request, session,
                    url_for)
 from flask_login import (LoginManager, current_user, login_required,
                          login_user, logout_user)
+from flask_session import Session
 
 from config import MONGO_URI, SECRET_KEY
 from database.user import User
@@ -13,9 +14,12 @@ from misc import gia, quadratic_equation, sample
 # from icecream import ic
 
 
-app = Flask(__name__)
+app = Flask('MathCube')
 app.secret_key = SECRET_KEY
 app.config["MONGO_URI"] = MONGO_URI
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_TYPE"] = "mongodb"
+Session(app)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -106,7 +110,20 @@ def generator_post():
     correct_answer: str = request.form.get("correct_answer") # type: ignore
 
     if category == "sample":
-        is_correct = user_answer1 == correct_answer
+        match request.form["sumbit_btn"]:
+            case 'answer': 
+                is_correct = user_answer1 == correct_answer
+            case 'apply':
+                opers = []
+                if request.form.get('sumCheck'):
+                    opers.append('+')
+                if request.form.get('difCheck'):
+                    opers.append('-')
+                if  request.form.get('mulCheck'):
+                    opers.append('*')
+                if request.form.get('divCheck'):
+                    opers.append('/')
+                session['sample_opers'] = opers
     elif category == "quadratic_equation":
         correct_answers = {float(str_answer) for str_answer in correct_answer.split("|")}
         user_answers = {float(str_answer) for str_answer in (user_answer1, user_answer2) if str_answer}
@@ -127,13 +144,14 @@ def generator_post():
 def generator_get():
     category = request.args.get("category", default="sample", type=str)
     if category == "sample":
-        opers: list[Literal["+", "-", "*", "/"]] = ["+", "-", "*", "/"] # TODO получения с фронта
+        opers: list[Literal["+", "-", "*", "/"]] = session.get('sample_opers', ["+", "-", "*", "/"])
         problem, correct_answer = sample.generate(opers)
         return render_template(
             "pages/generator.html",
             problem=problem,
             correct_answer=correct_answer,
             category=category,
+            sample_opers=opers
         )
     elif category == "quadratic_equation":
         difficulty = 2 # TODO получения с фронта
