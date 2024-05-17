@@ -6,6 +6,7 @@ from icecream import ic
 
 def randcoef(a: int, b: int) -> int:
     "Аналог функции random.randint, который не допускает нули"
+
     result = randint(a, b)
     while result == 0:
         result = randint(a, b)
@@ -13,6 +14,8 @@ def randcoef(a: int, b: int) -> int:
 
 
 def generate_coefficients(difficulty: int) -> tuple[int, int, int]:
+    "Возвращает коэффициенты для квадратного уравнения заданной сложности (от 0 до 2)"
+
     while True:
         match difficulty:
             case 0:
@@ -37,6 +40,8 @@ def generate_coefficients(difficulty: int) -> tuple[int, int, int]:
 
 
 def get_roots(a: int, b: int, c: int) -> float | tuple[float, float]:
+    "Возвращает корень или кортеж  из двух корней для квадратного уравнения"
+
     discriminant = b * b - 4 * a * c
     sqrt_d = sqrt(abs(discriminant))
 
@@ -52,6 +57,8 @@ def get_roots(a: int, b: int, c: int) -> float | tuple[float, float]:
 
 
 def format(a: int, b: int, c: int) -> str:
+    "Форматирует квадратное уравнение по математическим правилам записи"
+
     if b and c:
         template = "{0}x² {1} {2}x {3} {4} = 0"
     elif b and not c:
@@ -76,5 +83,4 @@ def format(a: int, b: int, c: int) -> str:
     if b == 1:
         b = ""  # type: ignore
 
-    result = template.format(a, second, b, third, c)
-    return result
+    return template.format(a, second, b, third, c)
