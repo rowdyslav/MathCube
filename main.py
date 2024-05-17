@@ -18,7 +18,7 @@ app = Flask('MathCube')
 app.secret_key = SECRET_KEY
 app.config["MONGO_URI"] = MONGO_URI
 app.config["SESSION_PERMANENT"] = False
-app.config["SESSION_TYPE"] = "mongodb"
+app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 login_manager = LoginManager()
