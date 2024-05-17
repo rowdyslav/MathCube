@@ -1,4 +1,5 @@
 import random
+from typing import Literal
 
 from flask import (Flask, flash, redirect, render_template, request, session,
                    url_for)
@@ -75,20 +76,15 @@ def leaderboard():
     all_users = User._getall()
 
     def get_percentage(user: User) -> float:
-        a = sum((statistic['all'] for _, statistic in user.statistic.items()))
-        b = sum((statistic['correct'] for _, statistic in user.statistic.items()))
-        return b / a if b != 0 else 0
-
-    def get_nice_percentage(user: User) -> float:
-        a = sum((statistic['all'] for _, statistic in user.statistic.items()))
-        b = sum((statistic['correct'] for _, statistic in user.statistic.items()))
-        return float(str(b / a * 100)[:4]) if b != 0 else 0
+        a = sum((statistic['correct'] for _, statistic in user.statistic.items()))
+        b = sum((statistic['all'] for _, statistic in user.statistic.items()))
+        return float(str(a / b * 100)[:4]) if b != 0 else 0
 
     def get_quantity(user: User) -> int:
         return sum((statistic['correct'] for _, statistic in user.statistic.items()))
 
     percentage = [
-        (user.username, get_nice_percentage(user)) for user in sorted(all_users, key=get_percentage, reverse=True)
+        (user.username, get_percentage(user)) for user in sorted(all_users, key=get_percentage, reverse=True)
     ]
     quantity = [
         (user.username, get_quantity(user)) for user in sorted(all_users, key=get_quantity, reverse=True)
@@ -131,7 +127,7 @@ def generator_post():
 def generator_get():
     category = request.args.get("category", default="sample", type=str)
     if category == "sample":
-        opers = ... # TODO
+        opers: list[Literal["+", "-", "*", "/"]] = ["+", "-", "*", "/"] # TODO получения с фронта
         problem, correct_answer = sample.generate(opers)
         return render_template(
             "pages/generator.html",
@@ -140,7 +136,7 @@ def generator_get():
             category=category,
         )
     elif category == "quadratic_equation":
-        difficulty = ... # TODO
+        difficulty = 2 # TODO получения с фронта
         a, b, c = quadratic_equation.generate_coefficients(difficulty)
         correct_answer = quadratic_equation.get_roots(a, b, c)
         problem = quadratic_equation.format(a, b, c)
