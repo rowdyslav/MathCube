@@ -1,0 +1,7 @@
+:root {
+    --main-color: #0179FA;
+}
+
+#sumCheck, #difCheck, #MultCheck, #divCheck {
+    border-color: var(--main-color);
+}

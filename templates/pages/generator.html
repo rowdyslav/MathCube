@@ -19,6 +19,9 @@
                                     </div>
                                     <div class="modal-body">
                                         {{ message }}
+                                        {% if message == "Неправильно!" %}
+                                            Правильный ответ: {{ correct_answer }}
+                                        {% endif %}
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ок
@@ -47,7 +50,34 @@
                 Квадратные уравнения
             </a>
         </div>
-        <form method="POST" class="w-25 mx-auto my-5">
+
+        {% if category != "quadratic_equation" %}
+            <div>
+                <form method="POST" class="form-control border-0 w-25 mx-auto text-center mt-3">
+                    <div class="row">
+                        <div class="col-3 form-check">
+                            <input type="checkbox" name="sumCheck" class="form-check-input" id="sumCheck" {% if '+' in sample_opers %}{{ "checked" }}{% endif %}>
+                            <label class="form-check-label" for="sumCheck">+</label>
+                        </div>
+                        <div class="col-3 form-check">
+                            <input type="checkbox" name="difCheck" class="form-check-input" id="difCheck" {% if '-' in sample_opers %}{{ "checked" }}{% endif %}>
+                            <label class="form-check-label" for="difCheck">-</label>
+                        </div>
+                        <div class="col-3 form-check">
+                            <input type="checkbox" name="mulCheck" class="form-check-input" id="mulCheck" {% if '*' in sample_opers %}{{ "checked" }}{% endif %}>
+                            <label class="form-check-label" for="MultCheck">*</label>
+                        </div>
+                        <div class="col-3 form-check">
+                            <input type="checkbox" name="divCheck" class="form-check-input" id="divCheck" {% if '/' in sample_opers %}{{ "checked" }}{% endif %}>
+                            <label class="form-check-label" for="divCheck">/</label>
+                        </div>
+                    </div>
+                    <button type="submit" name="submit_btn" value="apply" class="btn btn-primary">Применить</button>
+                </form>
+            </div>
+        {% endif %}
+
+        <form method="POST" class="w-25 mx-auto my-3">
             <div class="form-group my-2">
                 <label for="problem" hidden="hidden">Problem:</label>
                 <input type="text" class="form-control" id="problem" value="{{ problem }}" disabled>
@@ -68,7 +98,10 @@
                     <input type="number" step="any" class="form-control" id="answer1" name="answer1" required>
                 </div>
             {% endif %}
-            <button type="submit" class="btn btn-primary my-2">Submit</button>
+            <div class="w-100 text-center">
+                <button type="submit" name="submit_btn" value="answer" class="btn btn-primary my-2">Отправить</button>
+            </div>
+
         </form>
     </div>
 {% endblock %}
