@@ -78,7 +78,7 @@ def leaderboard():
     def get_percentage(user: User) -> float:
         a = sum((statistic['correct'] for _, statistic in user.statistic.items()))
         b = sum((statistic['all'] for _, statistic in user.statistic.items()))
-        return float(str(a / b * 100)[:4]) if b != 0 else 0
+        return round(a / b * 100, 2) if b != 0 else 0
 
     def get_quantity(user: User) -> int:
         return sum((statistic['correct'] for _, statistic in user.statistic.items()))
