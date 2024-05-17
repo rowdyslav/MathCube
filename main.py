@@ -5,10 +5,10 @@ from flask import (Flask, flash, redirect, render_template, request, session,
                    url_for)
 from flask_login import (LoginManager, current_user, login_required,
                          login_user, logout_user)
-from flask_session import Session
 
 from config import MONGO_URI, SECRET_KEY
 from database.user import User
+from flask_session import Session
 from misc import gia, quadratic_equation, sample
 
 # from icecream import ic
@@ -32,6 +32,8 @@ def load_user(user_id: str):
 
 @app.route("/")
 def index():
+    session.pop('_flashes', None)
+
     return render_template("pages/index.html")
 
 @app.route("/signup", methods=["GET", "POST"])
@@ -139,6 +141,8 @@ def generator_post():
                 if request.form.get('divCheck'):
                     opers.append('/')
                 session['sample_opers'] = opers
+            elif category == "quadratic_equation":
+                session["quadratic_equation_difficulty"] = request.form.get('quadDifficulty')
     return redirect(url_for("generator_get", category=category))
 
 @app.route("/generator")
@@ -156,7 +160,7 @@ def generator_get():
             sample_opers=opers
         )
     elif category == "quadratic_equation":
-        difficulty = 2 # TODO получения с фронта
+        difficulty: Literal["Легкая", "Средняя", "Сложная"] = session.get('quadratic_equation_difficulty', 'Легкая')
         a, b, c = quadratic_equation.generate_coefficients(difficulty)
         correct_answer = quadratic_equation.get_roots(a, b, c)
         problem = quadratic_equation.format(a, b, c)

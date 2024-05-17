@@ -1,5 +1,6 @@
 from math import isqrt, sqrt
 from random import randint
+from typing import Literal
 
 from icecream import ic
 
@@ -13,20 +14,22 @@ def randcoef(a: int, b: int) -> int:
     return result
 
 
-def generate_coefficients(difficulty: int) -> tuple[int, int, int]:
-    "Возвращает коэффициенты для квадратного уравнения заданной сложности (от 0 до 2)"
+def generate_coefficients(
+    difficulty: Literal["Легкая", "Средняя", "Сложная"]
+) -> tuple[int, int, int]:
+    "Возвращает коэффициенты для квадратного уравнения заданной сложности Легкая, Средняя, Сложная"
 
     while True:
         match difficulty:
-            case 0:
+            case "Легкая":
                 a = randcoef(-2, 5)
                 b = 0
                 c = randcoef(-5, 5)
-            case 1:
+            case "Средняя":
                 a = randcoef(-2, 10)
                 b = randcoef(-10, 10)
                 c = 0
-            case 2:
+            case "Сложная":
                 a = randcoef(-10, 10)
                 b = randcoef(-15, 15)
                 c = randcoef(-20, 20)
