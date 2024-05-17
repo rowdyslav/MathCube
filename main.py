@@ -106,7 +106,7 @@ def generator_post():
     correct_answer: str = request.form.get("correct_answer") # type: ignore
 
     if category == "sample":
-        is_correct = user_answer1 == float(correct_answer)
+        is_correct = user_answer1 == correct_answer
     elif category == "quadratic_equation":
         correct_answers = {float(str_answer) for str_answer in correct_answer.split("|")}
         user_answers = {float(str_answer) for str_answer in (user_answer1, user_answer2) if str_answer}
