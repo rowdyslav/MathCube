@@ -109,11 +109,26 @@ def generator_post():
 
     correct_answer: str = request.form.get("correct_answer") # type: ignore
 
-    if category == "sample":
-        match request.form["submit_btn"]:
-            case 'answer': 
+    match request.form["submit_btn"]:
+        case 'answer': 
+            if category == 'sample':
                 is_correct = user_answer1 == correct_answer
-            case 'apply':
+            elif category == "quadratic_equation":
+                correct_answers = {float(str_answer) for str_answer in correct_answer.split("|")}
+                user_answers = {float(str_answer) for str_answer in (user_answer1, user_answer2) if str_answer}
+                is_correct = correct_answers == user_answers
+        
+                inc_stat = {f"statistic.{category}.all": 1}
+
+            if is_correct:
+                flash("Верно!")
+                inc_stat[f"statistic.{category}.correct"] = 1
+            else:
+                flash("Неправильно!")
+
+            User._update(current_user._id, "$inc", **inc_stat)
+        case 'apply':
+            if category == "sample":
                 opers = []
                 if request.form.get('sumCheck'):
                     opers.append('+')
@@ -124,19 +139,6 @@ def generator_post():
                 if request.form.get('divCheck'):
                     opers.append('/')
                 session['sample_opers'] = opers
-    elif category == "quadratic_equation":
-        correct_answers = {float(str_answer) for str_answer in correct_answer.split("|")}
-        user_answers = {float(str_answer) for str_answer in (user_answer1, user_answer2) if str_answer}
-        is_correct = correct_answers == user_answers
-    inc_stat = {f"statistic.{category}.all": 1}
-
-    if is_correct:
-        flash("Верно!")
-        inc_stat[f"statistic.{category}.correct"] = 1
-    else:
-        flash("Неправильно!")
-
-    User._update(current_user._id, "$inc", **inc_stat)
     return redirect(url_for("generator_get", category=category))
 
 @app.route("/generator")
