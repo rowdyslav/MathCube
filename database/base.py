@@ -29,7 +29,7 @@ class Base:
             "_id": str(ObjectId()),
             "statistic": {
                 category: {"correct": 0, "all": 0}
-                for category in ("sample", "quadratic_equation")
+                for category in ("sample", "linear_equation", "quadratic_equation")
             },
             **kwargs,
         }

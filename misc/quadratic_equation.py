@@ -2,10 +2,10 @@ from math import isqrt, sqrt
 from random import randint
 from typing import Literal
 
-from icecream import ic
+# from icecream import ic
 
 
-def randcoef(a: int, b: int) -> int:
+def _randcoef(a: int, b: int) -> int:
     "Аналог функции random.randint, который не допускает нули"
 
     result = randint(a, b)
@@ -22,17 +22,17 @@ def generate_coefficients(
     while True:
         match difficulty:
             case "Легкая":
-                a = randcoef(-2, 5)
+                a = _randcoef(-2, 5)
                 b = 0
-                c = randcoef(-5, 5)
+                c = _randcoef(-5, 5)
             case "Средняя":
-                a = randcoef(-2, 10)
-                b = randcoef(-10, 10)
+                a = _randcoef(-2, 10)
+                b = _randcoef(-10, 10)
                 c = 0
             case "Сложная":
-                a = randcoef(-10, 10)
-                b = randcoef(-15, 15)
-                c = randcoef(-20, 20)
+                a = _randcoef(-10, 10)
+                b = _randcoef(-15, 15)
+                c = _randcoef(-20, 20)
             case _:
                 raise ValueError("Invalid difficulty level")
 
@@ -43,7 +43,7 @@ def generate_coefficients(
 
 
 def get_roots(a: int, b: int, c: int) -> float | tuple[float, float]:
-    "Возвращает корень или кортеж  из двух корней для квадратного уравнения"
+    "Возвращает корень или кортеж из двух корней для квадратного уравнения"
 
     discriminant = b * b - 4 * a * c
     sqrt_d = sqrt(abs(discriminant))
