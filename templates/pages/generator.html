@@ -45,7 +45,7 @@
             <a href="{{ url_for('generator_get', category='sample') }}" class="btn btn-outline-primary mx-2">
                 Простая арифметика
             </a>
-            <a href="{{ url_for('generator_get', category='quadratic_equation', difficulty=0) }}"
+            <a href="{{ url_for('generator_get', category='quadratic_equation') }}"
                class="btn btn-outline-primary mx-2">
                 Квадратные уравнения
             </a>
@@ -73,6 +73,18 @@
                         </div>
                     </div>
                     <button type="submit" name="submit_btn" value="apply" class="btn btn-primary">Применить</button>
+                </form>
+            </div>
+        {% else %}
+            <div>
+                <form method="POST" class="form-control border-0 w-25 mx-auto text-center mt-3">
+                    <label for="quadDifficulty" class="form-label">Выберите сложность:</label>
+                    <select name="quadDifficulty" id="quadDifficulty" class="form-select">
+                        <option value="Легкая">Легкая</option>
+                        <option value="Средняя">Средняя</option>
+                        <option value="Сложная">Сложная</option>
+                    </select>
+                    <button type="submit" name="submit_btn" value="apply" class="btn btn-primary mt-2">Применить</button>
                 </form>
             </div>
         {% endif %}
