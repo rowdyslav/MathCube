@@ -66,24 +66,17 @@ def format(a: int, b: int, c: int) -> str:
         template = "{0}x² {1} {2}x {3} {4} = 0"
     elif b and not c:
         template = "{0}x² {1} {2}x = 0"
-    elif not b and c:
+    elif c and not b:
         template = "{0}x² {3} {4} = 0"
 
-    if b > 0:
-        second = "+"
-    else:
-        b *= -1
-        second = "-"
-
-    if c > 0:
-        third = "+"
-    else:
-        c *= -1
-        third = "-"
+    second = "+" if b > 0 else "-"
+    third = "+" if c > 0 else "-"
 
     if a == 1:
         a = ""  # type: ignore
     if b == 1:
         b = ""  # type: ignore
 
-    return template.format(a, second, b, third, c)
+    return template.format(
+        a, second, abs(b), third, abs(c)
+    )  # TODO Переписать, пока будет ерор если b станет пусттой ковычкой

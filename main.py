@@ -1,5 +1,5 @@
 import random
-from typing import Literal
+from typing import Any, Literal
 
 from flask import (Flask, flash, redirect, render_template, request, session,
                    url_for)
@@ -9,7 +9,7 @@ from flask_login import (LoginManager, current_user, login_required,
 from config import MONGO_URI, SECRET_KEY
 from database.user import User
 from flask_session import Session
-from misc import gia, quadratic_equation, sample
+from misc import gia, linear_equation, quadratic_equation, sample
 
 # from icecream import ic
 
@@ -24,7 +24,6 @@ Session(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 
-
 @login_manager.user_loader
 def load_user(user_id: str):
     return User._get(user_id)
@@ -33,7 +32,6 @@ def load_user(user_id: str):
 @app.route("/")
 def index():
     session.pop('_flashes', None)
-    session.pop('quadratic_equation_difficulty', None)
 
     return render_template("pages/index.html")
 
@@ -107,20 +105,18 @@ def leaderboard():
 @login_required
 def generator_post():
     category = request.args.get("category", default="sample", type=str)
-    user_answer1: str = request.form.get("answer1") # type: ignore
-    user_answer2: str | None = request.form.get("answer2")
-
-    correct_answer: str = request.form.get("correct_answer") # type: ignore
 
     match request.form["submit_btn"]:
         case 'answer':
-            if category == 'sample':
-                is_correct = user_answer1 == correct_answer
-            elif category == "quadratic_equation":
-                correct_answers = {float(str_answer) for str_answer in correct_answer.split("|")}
-                user_answers = {float(str_answer) for str_answer in (user_answer1, user_answer2) if str_answer}
-                is_correct = correct_answers == user_answers
+            user_answer1: str = request.form.get("answer1") # type: ignore
+            correct_answer: str = request.form.get("correct_answer") # type: ignore
 
+            if category == "quadratic_equation":
+                correct_answers = {float(str_answer) for str_answer in correct_answer.split("|")}
+                user_answers = {float(str_answer) for str_answer in (user_answer1, request.form.get("answer2")) if str_answer}
+                is_correct = correct_answers == user_answers
+            else:
+                is_correct = user_answer1 == correct_answer
             inc_stat = {f"statistic.{category}.all": 1}
 
             if is_correct:
@@ -131,51 +127,49 @@ def generator_post():
 
             User._update(current_user._id, "$inc", **inc_stat)
         case 'apply':
-            if category == "sample":
-                opers = []
-                if request.form.get('sumCheck'):
-                    opers.append('+')
-                if request.form.get('difCheck'):
-                    opers.append('-')
-                if  request.form.get('mulCheck'):
-                    opers.append('*')
-                if request.form.get('divCheck'):
-                    opers.append('/')
-                session['sample_opers'] = opers
-            elif category == "quadratic_equation":
-                session["quadratic_equation_difficulty"] = request.form.get('quadDifficulty')
+            match category:
+                case "sample":
+                    opers = []
+                    if request.form.get('sumCheck'):
+                        opers.append('+')
+                    if request.form.get('difCheck'):
+                        opers.append('-')
+                    if request.form.get('mulCheck'):
+                        opers.append('*')
+                    if request.form.get('divCheck'):
+                        opers.append('/')
+                    session['sample_opers'] = opers
+                case "quadratic_equation":
+                    session["quadratic_equation_difficulty"] = request.form.get('quadDifficulty')
     return redirect(url_for("generator_get", category=category))
 
 @app.route("/generator")
 @login_required
 def generator_get():
     category = request.args.get("category", default="sample", type=str)
-    if category == "sample":
-        opers: list[Literal["+", "-", "*", "/"]] = session.get('sample_opers', ["+", "-", "*", "/"])
-        problem, correct_answer = sample.generate(opers)
-        return render_template(
-            "pages/generator.html",
-            problem=problem,
-            correct_answer=correct_answer,
-            category=category,
-            sample_opers=opers
-        )
-    elif category == "quadratic_equation":
-        difficulty: Literal["Легкая", "Средняя", "Сложная"] = session.get('quadratic_equation_difficulty', 'Легкая')
-        a, b, c = quadratic_equation.generate_coefficients(difficulty)
-        correct_answer = quadratic_equation.get_roots(a, b, c)
-        problem = quadratic_equation.format(a, b, c)
-        if isinstance(correct_answer, tuple):
-            correct_answer = f"{correct_answer[0]}|{correct_answer[1]}"
-        return render_template(
-            "pages/generator.html",
-            problem=problem,
-            correct_answer=correct_answer,
-            category=category,
-            difficulty=difficulty,
-        )
-    return redirect("/", 400)
-
+    additional: dict[str, Any] = {}
+    match category:
+        case "sample":
+            opers: list[Literal["+", "-", "*", "/"]] = session.get('sample_opers', ["+", "-", "*", "/"])
+            problem, correct_answer = sample.generate(opers)
+            additional['sample_opers'] = opers
+        case "linear_equation":
+            problem, correct_answer = linear_equation.generate()
+        case "quadratic_equation":
+            difficulty: Literal["Легкая", "Средняя", "Сложная"] = session.get('quadratic_equation_difficulty', 'Легкая')
+            a, b, c = quadratic_equation.generate_coefficients(difficulty)
+            correct_answer = quadratic_equation.get_roots(a, b, c)
+            problem = quadratic_equation.format(a, b, c)
+            if isinstance(correct_answer, tuple):
+                correct_answer = f"{correct_answer[0]}|{correct_answer[1]}"
+            additional['quadratic_equation_difficulty'] = difficulty
+    return render_template(
+        "pages/generator.html",
+        problem=problem,
+        correct_answer=correct_answer,
+        category=category,
+        **additional
+    )
 
 
 @app.route("/from_gia", methods=["GET", "POST"])
