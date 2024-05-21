@@ -60,23 +60,25 @@ def get_roots(a: int, b: int, c: int) -> float | tuple[float, float]:
 
 
 def format(a: int, b: int, c: int) -> str:
-    "Форматирует квадратное уравнение по математическим правилам записи"
+    """Форматирует квадратное уравнение по математическим правилам записи"""
+
+    sign_b = "+" if b > 0 else "-"
+    sign_c = "+" if c > 0 else "-"
+
+    abs_b = abs(b)
+    abs_c = abs(c)
+
+    a_str = "" if a == 1 else a
+    b_str = "" if abs_b == 1 else abs_b
 
     if b and c:
-        template = "{0}x² {1} {2}x {3} {4} = 0"
-    elif b and not c:
-        template = "{0}x² {1} {2}x = 0"
-    elif c and not b:
-        template = "{0}x² {3} {4} = 0"
+        equation = f"{a_str}x² {sign_b} {b_str}x {sign_c} {abs_c} = 0"
+    elif b:
+        equation = f"{a_str}x² {sign_b} {b_str}x = 0"
+    elif c:
+        equation = f"{a_str}x² {sign_c} {abs_c} = 0"
 
-    second = "+" if b > 0 else "-"
-    third = "+" if c > 0 else "-"
+    if equation.startswith("+"):
+        equation = equation[1:].strip()
 
-    if a == 1:
-        a = ""  # type: ignore
-    if b == 1:
-        b = ""  # type: ignore
-
-    return template.format(
-        a, second, abs(b), third, abs(c)
-    )  # TODO Переписать, пока будет ерор если b станет пусттой ковычкой
+    return equation
