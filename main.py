@@ -157,9 +157,7 @@ def generator_get():
             problem, correct_answer = linear_equation.generate()
         case "quadratic_equation":
             difficulty: Literal["Легкая", "Средняя", "Сложная"] = session.get('quadratic_equation_difficulty', 'Легкая')
-            a, b, c = quadratic_equation.generate_coefficients(difficulty)
-            correct_answer = quadratic_equation.get_roots(a, b, c)
-            problem = quadratic_equation.format(a, b, c)
+            problem, correct_answer = quadratic_equation.generate(difficulty)
             if isinstance(correct_answer, tuple):
                 correct_answer = f"{correct_answer[0]}|{correct_answer[1]}"
             additional['quadratic_equation_difficulty'] = difficulty

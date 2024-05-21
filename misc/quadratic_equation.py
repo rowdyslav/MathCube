@@ -5,7 +5,16 @@ from typing import Literal
 # from icecream import ic
 
 
-def _randcoef(a: int, b: int) -> int:
+def generate(
+    difficulty: Literal["Легкая", "Средняя", "Сложная"]
+) -> tuple[str, float | tuple[float, float]]:
+    a, b, c = generate_coefficients(difficulty)
+    equation = get_equation(a, b, c)
+    roots = get_roots(a, b, c)
+    return equation, roots
+
+
+def randcoef(a: int, b: int) -> int:
     "Аналог функции random.randint, который не допускает нули"
 
     result = randint(a, b)
@@ -22,17 +31,17 @@ def generate_coefficients(
     while True:
         match difficulty:
             case "Легкая":
-                a = _randcoef(-2, 5)
+                a = randcoef(-2, 5)
                 b = 0
-                c = _randcoef(-5, 5)
+                c = randcoef(-5, 5)
             case "Средняя":
-                a = _randcoef(-2, 10)
-                b = _randcoef(-10, 10)
+                a = randcoef(-2, 10)
+                b = randcoef(-10, 10)
                 c = 0
             case "Сложная":
-                a = _randcoef(-10, 10)
-                b = _randcoef(-15, 15)
-                c = _randcoef(-20, 20)
+                a = randcoef(-10, 10)
+                b = randcoef(-15, 15)
+                c = randcoef(-20, 20)
             case _:
                 raise ValueError("Invalid difficulty level")
 
@@ -59,8 +68,8 @@ def get_roots(a: int, b: int, c: int) -> float | tuple[float, float]:
         raise ValueError("Попытка получить корни корни квадратного уравнения с D < 0")
 
 
-def format(a: int, b: int, c: int) -> str:
-    """Форматирует квадратное уравнение по математическим правилам записи"""
+def get_equation(a: int, b: int, c: int) -> str:
+    """Возвращает квадратное уравнение отформатированное по математическим правилам записи"""
 
     sign_b = "+" if b > 0 else "-"
     sign_c = "+" if c > 0 else "-"
