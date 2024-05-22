@@ -55,7 +55,7 @@ docker compose up --build
 
 
 <!-- ROADMAP -->
-### Roadmap
+### Роудмап
 
 - [x] Add Changelog
 - [x] Add back to top links
@@ -65,8 +65,6 @@ docker compose up --build
     - [ ] Chinese
     - [ ] Spanish
 
-See the [open issues](https://github.com/rowdyslav/MathCube/issues) for a full list of proposed features (and known issues).
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#readme-top">наверх</a>)</p>
 
 [product-screenshot]: static/img/screenshots/product.png
