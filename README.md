@@ -67,16 +67,14 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-There are many great README templates available on GitHub; however, I didn't find one that really suited my needs so I created this enhanced one. I want to create a README template so amazing that it'll be the last one you ever need -- I think this is it.
+На нашем сайте вы найдете уникальные инструменты для улучшения своих математических навыков и подготовки к экзаменам. Мы предлагаем два мощных инструмента: Генератор уравнений и интеграцию с API сайта "Сдам ГИА".
 
-Here's why:
-* Your time should be focused on creating something amazing. A project that solves a problem and helps others
-* You shouldn't be doing the same tasks over and over like creating a README from scratch
-* You should implement DRY principles to the rest of your life :smile:
+Проверь свои навыки:
+* Простота использования: Наши инструменты интуитивно понятны и удобны в использовании.
+* Актуальные данные: Мы используем актуальные задания и материалы для подготов
+* Поддержка пользователей: Мы всегда готовы помочь вам с любыми вопросами и предложениями.
 
-Of course, no one template will serve all projects since your needs may be different. So I'll be adding more in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue. Thanks to all the people have contributed to expanding this template!
-
-Use the `BLANK_README.md` to get started.
+Начните уже сегодня! Воспользуйтесь нашими инструментами для улучшения своих математических навыков и будьте готовы к любым вызовам, будь то учеба или экзамены.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
