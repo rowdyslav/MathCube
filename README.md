@@ -113,3 +113,5 @@ This is an example of how to list things you need to use the software and how to
 See the [open issues](https://github.com/rowdyslav/MathCube/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+[product-screenshot]: static/img/screenshots/product.png
