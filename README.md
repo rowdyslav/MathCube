@@ -22,13 +22,13 @@
   <h3 align="center">MathCube</h3>
 
   <p align="center">
-    An awesome README template to jumpstart your projects!
+    Математический генератор с системой рейтинга и интеграцией ГИА!
     <br />
-    <a href="https://github.com/rowdyslav/MathCube"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/rowdyslav/MathCube"><strong>Документация »</strong></a>
     <br />
-    <a href="https://github.com/rowdyslav/MathCube/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
+    <a href="https://github.com/rowdyslav/MathCube/issues/new?labels=bug&template=bug-report---.md">Зарепортить баг</a>
     <br />
-    <a href="https://github.com/rowdyslav/MathCube/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
+    <a href="https://github.com/rowdyslav/MathCube/issues/new?labels=enhancement&template=feature-request---.md">Идея</a>
   </p>
 </div>
 
@@ -63,7 +63,7 @@
 
 
 <!-- ABOUT THE PROJECT -->
-## About The Project
+## О проекте
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
@@ -233,7 +233,7 @@ Use this space to list resources you find helpful and would like to give credit 
 [license-url]: https://github.com/rowdyslav/MathCube/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/othneildrew
-[product-screenshot]: images/screenshot.png
+[product-screenshot]: static/img/screenshots/product.png
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [Next-url]: https://nextjs.org/
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
