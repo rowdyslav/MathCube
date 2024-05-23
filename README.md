@@ -25,7 +25,7 @@
 </div>
 
 <!-- ABOUT THE PROJECT -->
-### О проекте
+# О проекте
 
 ![Product Name Screen Shot][product-screenshot]
 
@@ -41,18 +41,18 @@
 
 
 
-### Технологии
+# Технологии
 
 * Flask
 * MongoDB
 
 <!-- GETTING STARTED -->
-### Сборка
+# Сборка
 * Docker
 ```sh
 docker compose up --build
 ```
-### Использование
+# Использование
 ## Запуск
 * Docker
 ```sh
@@ -76,7 +76,7 @@ docker stop mathcube-server-1
 
 
 <!-- ROADMAP -->
-### Роудмап
+# Роудмап
 
 - [x] Add Changelog
 - [x] Add back to top links
