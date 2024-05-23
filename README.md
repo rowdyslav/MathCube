@@ -47,11 +47,32 @@
 * MongoDB
 
 <!-- GETTING STARTED -->
-### Установка
+### Сборка
+* Docker
 ```sh
 docker compose up --build
 ```
-Сайт будет доступен на http://127.0.0.1:5000/
+### Использование
+## Запуск
+* Docker
+```sh
+docker compose up
+```
+* Напрямую
+```sh
+python main.py
+```
+Сайт будет доступен на различных локальных адресах, например
+http://127.0.0.1:5000/
+http://0.0.0.0:5000/
+http://localhost:5000/
+## Стоп
+* Docker
+```sh
+docker stop mathcube-server-1
+```
+* Напрямую
+```Закрыть терминал / CRTL + C```
 
 
 <!-- ROADMAP -->
