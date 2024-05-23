@@ -52,7 +52,7 @@ Docker
 ```sh
 docker compose up --build
 ```
-# Использование
+# Использование (через терминал)
 ## Запуск
 Docker
 ```sh
@@ -63,9 +63,9 @@ docker compose up
 python main.py
 ```
 Сайт будет доступен на различных локальных адресах, например
-http://127.0.0.1:5000/
-http://0.0.0.0:5000/
-http://localhost:5000/
+* http://127.0.0.1:5000/
+* http://0.0.0.0:5000/
+* http://localhost:5000/
 ## Стоп
 Docker
 ```sh
