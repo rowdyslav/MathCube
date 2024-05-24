@@ -40,12 +40,12 @@
 * MongoDB
 
 <!-- GETTING STARTED -->
-# Сборка
+# Сборка (и запуск)
 Docker
 ```sh
 docker compose up --build
 ```
-# Использование (через терминал)
+# Использование
 ## Запуск
 Docker
 ```sh
