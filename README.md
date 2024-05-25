@@ -45,6 +45,11 @@ Docker
 ```sh
 docker compose up --build
 ```
+Напрямую
+```sh
+pip install -r requirements.txt
+python main.py
+```
 # Использование
 ## Запуск
 Docker
