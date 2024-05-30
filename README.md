@@ -40,25 +40,16 @@
 * MongoDB
 
 <!-- GETTING STARTED -->
-# Сборка (и запуск)
+# Сборка
 Docker
 ```sh
 docker compose up --build
-```
-Напрямую
-```sh
-pip install -r requirements.txt
-python main.py
 ```
 # Использование
 ## Запуск
 Docker
 ```sh
 docker compose up
-```
-Напрямую
-```sh
-python main.py
 ```
 Сайт будет доступен на различных локальных адресах, например
 * http://127.0.0.1:5000/

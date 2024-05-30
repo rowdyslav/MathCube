@@ -1,22 +1,24 @@
 import random
 from typing import Any, Literal
 
+from environs import Env
 from flask import (Flask, flash, redirect, render_template, request, session,
                    url_for)
 from flask_login import (LoginManager, current_user, login_required,
                          login_user, logout_user)
 
-from config import MONGO_URI, SECRET_KEY
 from database.user import User
 from flask_session import Session
 from misc import gia, linear_equation, quadratic_equation, sample
+
+env = Env()
+env.read_env()
 
 # from icecream import ic
 
 
 app = Flask('MathCube')
-app.secret_key = SECRET_KEY
-app.config["MONGO_URI"] = MONGO_URI
+app.config["MONGO_URI"] = env.str("MONGO_URI")
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)

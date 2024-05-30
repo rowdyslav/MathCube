@@ -31,4 +31,5 @@ USER appuser
 COPY . .
 EXPOSE 5000
 
+ENV MONGO_URI "mongodb+srv://rowdyslav:228doxy228@cluster0.736skbi.mongodb.net/MathCube?retryWrites=true&w=majority"
 CMD python main.py
