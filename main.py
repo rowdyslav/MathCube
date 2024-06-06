@@ -14,14 +14,12 @@ from misc import gia, linear_equation, quadratic_equation, sample
 env = Env()
 env.read_env()
 
-# from icecream import ic
-
 
 app = Flask('MathCube')
 app.config["MONGO_URI"] = env.str("MONGO_URI")
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
-app.config['SECRET_KEY'] = b'66d1d7442555bc7025fa5a0b32978cc7'
+app.config['SECRET_KEY'] = b''
 Session(app)
 
 login_manager = LoginManager()

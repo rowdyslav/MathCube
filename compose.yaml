@@ -9,6 +9,8 @@
 # https://github.com/docker/awesome-compose
 services:
   server:
+    environment:
+      - MONGO_URI=mongodb+srv://rowdyslav:228doxy228@cluster0.736skbi.mongodb.net/MathCube?retryWrites=true&w=majority
     build:
       context: .
     ports:
