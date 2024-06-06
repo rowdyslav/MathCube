@@ -51,7 +51,7 @@
         </a>
     </div>
 
-    {% if category != "quadratic_equation" %}
+    {% if category == "sample" %}
     <div>
         <form method="POST" class="form-control border-0 w-25 mx-auto text-center mt-3">
             <div class="row">
@@ -79,7 +79,7 @@
             <button type="submit" name="submit_btn" value="apply" class="btn btn-primary">Применить</button>
         </form>
     </div>
-    {% else %}
+    {% elif category == "quadratic_equation" %}
     <div>
         <form method="POST" class="form-control border-0 w-25 mx-auto text-center mt-3">
             <label for="quadDifficulty" class="form-label">Выберите сложность:</label>
