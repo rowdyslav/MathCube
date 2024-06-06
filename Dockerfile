@@ -23,12 +23,8 @@ RUN --mount=type=cache,target=/root/.cache/pip \
     --mount=type=bind,source=requirements.txt,target=requirements.txt \
     python -m pip install -r requirements.txt
 
-RUN mkdir -p flask_session
-RUN chown -R appuser:appuser /app
-RUN chmod 755 /app/flask_session
-
 USER appuser
-COPY . .
+COPY --chown=appuser . .
 EXPOSE 5000
 
 ENV MONGO_URI "mongodb+srv://rowdyslav:228doxy228@cluster0.736skbi.mongodb.net/MathCube?retryWrites=true&w=majority"
