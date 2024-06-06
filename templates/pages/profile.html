@@ -1,67 +1,78 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <main class="w-75 m-auto align-items-center justify-content-center profile_info">
-        <div class="text-center mb-1">
-            <img src="{{ url_for('static', filename='img/icons/profile_img.png') }}" height="200">
-        </div>
+<main class="w-75 m-auto align-items-center justify-content-center profile_info">
+    <div class="text-center mb-1">
+        <img src="{{ url_for('static', filename='img/icons/profile_img.png') }}" height="200">
+    </div>
 
-        <h1 class="h3 mb-3 fw-normal text-center">{{ current_user.username }}</h1>
+    <h1 class="h3 mb-3 fw-normal text-center">{{ current_user.username }}</h1>
+    <h2 class="my-5 fw-normal text-center">Статистика</h2>
 
-        <div class="text-center">
-            <a href="">
-                <button class="btn btn-outline-primary">Сменить пароль</button>
-            </a>
-        </div>
-
-        <h2 class="my-5 fw-normal text-center">Статистика</h2>
-
-        <div class="container">
-            <div class="row">
-                <div style="width: 50%" class="d-flex justify-content-center align-items-center">
-                    <img src="{{ url_for('static', filename='img/icons/simple_ariphmetic_icon.png') }}" height="100">
-                </div>
-                <div style="width: 50%" class="d-flex justify-content-center align-items-center">
-                    <img src="{{ url_for('static', filename='img/icons/quadratic_equations_icon.png') }}" height="100">
-                </div>
+    <div class="container">
+        <div class="row">
+            <div style="width: 33%" class="d-flex justify-content-center align-items-center">
+                <img src="{{ url_for('static', filename='img/icons/sample_icon.png') }}" height="100">
             </div>
-            <div class="row mb-5">
-                <div style="width: 50%" class="d-flex justify-content-center align-items-center">
-                    <h3>Арифметика</h3>
-                </div>
-                <div style="width: 50%" class="d-flex justify-content-center align-items-center">
-                    <h3>Квадратные уравнения</h3>
-                </div>
+            <div style="width: 33%" class="d-flex justify-content-center align-items-center">
+                <img src="{{ url_for('static', filename='img/icons/linear_equation_icon.png') }}" height="100">
             </div>
-            <div class="row mb-4">
-                <div style="width: 25%" class="d-flex justify-content-center align-items-center">
-                    <h5>Успешно</h5>
-                </div>
-                <div style="width: 25%" class="d-flex justify-content-center align-items-center">
-                    <h5>Всего</h5>
-                </div>
-                <div style="width: 25%" class="d-flex justify-content-center align-items-center">
-                    <h5>Успешно</h5>
-                </div>
-                <div style="width: 25%" class="d-flex justify-content-center align-items-center">
-                    <h5>Всего</h5>
-                </div>
-            </div>
-            <div class="row">
-                <div style="width: 25%" class="d-flex justify-content-center align-items-center">
-                    <h2 style="color: blue">{{ current_user.statistic.sample.correct }}</h2>
-                </div>
-                <div style="width: 25%" class="d-flex justify-content-center align-items-center">
-                    <h2 style="color: blue">{{ current_user.statistic.sample.all }}</h2>
-                </div>
-                <div style="width: 25%" class="d-flex justify-content-center align-items-center">
-                    <h2 style="color: blue">{{ current_user.statistic.quadratic_equation.correct }}</h2>
-                </div>
-                <div style="width: 25%" class="d-flex justify-content-center align-items-center">
-                    <h2 style="color: blue">{{ current_user.statistic.quadratic_equation.all }}</h2>
-                </div>
+            <div style="width: 33%" class="d-flex justify-content-center align-items-center">
+                <img src="{{ url_for('static', filename='img/icons/quadratic_equation_icon.png') }}" height="100">
             </div>
         </div>
+        <div class="row mb-5">
+            <div style="width: 33%" class="d-flex justify-content-center align-items-center">
+                <h3>Арифметика</h3>
+            </div>
+            <div style="width: 33%" class="d-flex justify-content-center align-items-center">
+                <h3>Линейные уравнения</h3>
+            </div>
+            <div style="width: 33%" class="d-flex justify-content-center align-items-center">
+                <h3>Квадратные уравнения</h3>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div style="width: 16%" class="d-flex justify-content-center align-items-center">
+                <h5>Успешно</h5>
+            </div>
+            <div style="width: 16%" class="d-flex justify-content-center align-items-center">
+                <h5>Всего</h5>
+            </div>
+            <div style="width: 16%" class="d-flex justify-content-center align-items-center">
+                <h5>Успешно</h5>
+            </div>
+            <div style="width: 16%" class="d-flex justify-content-center align-items-center">
+                <h5>Всего</h5>
+            </div>
+            <div style="width: 16%" class="d-flex justify-content-center align-items-center">
+                <h5>Успешно</h5>
+            </div>
+            <div style="width: 16%" class="d-flex justify-content-center align-items-center">
+                <h5>Всего</h5>
+            </div>
+        </div>
+        <div class="row">
+            <div style="width: 16%" class="d-flex justify-content-center align-items-center">
+                <h2 style="color: blue">{{ current_user.statistic.sample.correct }}</h2>
+            </div>
+            <div style="width: 16%" class="d-flex justify-content-center align-items-center">
+                <h2 style="color: blue">{{ current_user.statistic.sample.all }}</h2>
+            </div>
+            <div style="width: 16%" class="d-flex justify-content-center align-items-center">
+                <h2 style="color: blue">{{ current_user.statistic.linear_equation.correct }}</h2>
+            </div>
+            <div style="width: 16%" class="d-flex justify-content-center align-items-center">
+                <h2 style="color: blue">{{ current_user.statistic.linear_equation.all }}</h2>
+            </div>
+            <div style="width: 16%" class="d-flex justify-content-center align-items-center">
+                <h2 style="color: blue">{{ current_user.statistic.quadratic_equation.correct }}</h2>
+            </div>
+            <div style="width: 16%" class="d-flex justify-content-center align-items-center">
+                <h2 style="color: blue">{{ current_user.statistic.quadratic_equation.all }}</h2>
+            </div>
+        </div>
+    </div>
 
-    </main>
+</main>
 {% endblock %}

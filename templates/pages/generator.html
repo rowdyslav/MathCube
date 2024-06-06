@@ -1,119 +1,123 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="container mt-5">
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                {% for message in messages %}
-                    <div class="alert alert-{{ message[1] }}">
-                        <button type="button" class="btn btn-primary d-none" id="ModalLaunch" data-bs-toggle="modal"
-                                data-bs-target="#exampleModal"></button>
+<div class="container mt-5">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message[1] }}">
+        <button type="button" class="btn btn-primary d-none" id="ModalLaunch" data-bs-toggle="modal"
+            data-bs-target="#exampleModal"></button>
 
-                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                             aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        {{ message }}
-                                        {% if message == "Неправильно!" %}
-                                            Правильный ответ: {{ correct_answer }}
-                                        {% endif %}
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ок
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <script>
-                            var button = document.getElementById('ModalLaunch');
-                            button.click();
-                        </script>
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-
-        <h1 class="text-center">Математический генератор</h1>
-        <div class="d-flex justify-content-center w-100">
-            <a href="{{ url_for('generator_get', category='sample') }}" class="btn btn-outline-primary mx-2">
-                Простая арифметика
-            </a>
-            <a href="{{ url_for('generator_get', category='quadratic_equation') }}"
-               class="btn btn-outline-primary mx-2">
-                Квадратные уравнения
-            </a>
+                    <div class="modal-body">
+                        {{ message }}
+                        {% if message == "Неправильно!" %}
+                        Правильный ответ: {{ correct_answer }}
+                        {% endif %}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ок
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        {% if category != "quadratic_equation" %}
-            <div>
-                <form method="POST" class="form-control border-0 w-25 mx-auto text-center mt-3">
-                    <div class="row">
-                        <div class="col-3 form-check">
-                            <input type="checkbox" name="sumCheck" class="form-check-input" id="sumCheck" {% if '+' in sample_opers %}{{ "checked" }}{% endif %}>
-                            <label class="form-check-label" for="sumCheck">+</label>
-                        </div>
-                        <div class="col-3 form-check">
-                            <input type="checkbox" name="difCheck" class="form-check-input" id="difCheck" {% if '-' in sample_opers %}{{ "checked" }}{% endif %}>
-                            <label class="form-check-label" for="difCheck">-</label>
-                        </div>
-                        <div class="col-3 form-check">
-                            <input type="checkbox" name="mulCheck" class="form-check-input" id="mulCheck" {% if '*' in sample_opers %}{{ "checked" }}{% endif %}>
-                            <label class="form-check-label" for="MultCheck">*</label>
-                        </div>
-                        <div class="col-3 form-check">
-                            <input type="checkbox" name="divCheck" class="form-check-input" id="divCheck" {% if '/' in sample_opers %}{{ "checked" }}{% endif %}>
-                            <label class="form-check-label" for="divCheck">/</label>
-                        </div>
-                    </div>
-                    <button type="submit" name="submit_btn" value="apply" class="btn btn-primary">Применить</button>
-                </form>
-            </div>
-        {% else %}
-            <div>
-                <form method="POST" class="form-control border-0 w-25 mx-auto text-center mt-3">
-                    <label for="quadDifficulty" class="form-label">Выберите сложность:</label>
-                    <select name="quadDifficulty" id="quadDifficulty" class="form-select">
-                        <option value="Легкая">Легкая</option>
-                        <option value="Средняя">Средняя</option>
-                        <option value="Сложная">Сложная</option>
-                    </select>
-                    <button type="submit" name="submit_btn" value="apply" class="btn btn-primary mt-2">Применить</button>
-                </form>
-            </div>
-        {% endif %}
+        <script>
+            var button = document.getElementById('ModalLaunch');
+            button.click();
+        </script>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
 
-        <form method="POST" class="w-25 mx-auto my-3">
-            <div class="form-group my-2">
-                <label for="problem" hidden="hidden">Problem:</label>
-                <input type="text" class="form-control" id="problem" value="{{ problem }}" disabled>
-                <input type="hidden" name="correct_answer" value="{{ correct_answer }}">
-            </div>
-            {% if category == 'quadratic_equation' %}
-                <div class="form-group my-2">
-                    <label for="answer1">Корень 1:</label>
-                    <input type="number" step="any" class="form-control" id="answer1" name="answer1" required>
-                </div>
-                <div class="form-group my-2">
-                    <label for="answer2">Корень 2 (опционально):</label>
-                    <input type="number" step="any" class="form-control" id="answer2" name="answer2">
-                </div>
-            {% else %}
-                <div class="form-group my-2">
-                    <label for="answer1">Ответ:</label>
-                    <input type="number" step="any" class="form-control" id="answer1" name="answer1" required>
-                </div>
-            {% endif %}
-            <div class="w-100 text-center">
-                <button type="submit" name="submit_btn" value="answer" class="btn btn-primary my-2">Отправить</button>
-            </div>
+    <h1 class="text-center">Математический генератор</h1>
+    <div class="d-flex justify-content-center w-100">
+        <a href="{{ url_for('generator_get', category='sample') }}" class="btn btn-outline-primary mx-2">
+            Простая арифметика
+        </a>
+        <a href="{{ url_for('generator_get', category='linear_equation') }}" class="btn btn-outline-primary mx-2">
+            Линейные уравнения
+        </a>
+        <a href="{{ url_for('generator_get', category='quadratic_equation') }}" class="btn btn-outline-primary mx-2">
+            Квадратные уравнения
+        </a>
+    </div>
 
+    {% if category != "quadratic_equation" %}
+    <div>
+        <form method="POST" class="form-control border-0 w-25 mx-auto text-center mt-3">
+            <div class="row">
+                <div class="col-3 form-check">
+                    <input type="checkbox" name="sumCheck" class="form-check-input" id="sumCheck" {% if '+' in
+                        sample_opers %}{{ "checked" }}{% endif %}>
+                    <label class="form-check-label" for="sumCheck">+</label>
+                </div>
+                <div class="col-3 form-check">
+                    <input type="checkbox" name="difCheck" class="form-check-input" id="difCheck" {% if '-' in
+                        sample_opers %}{{ "checked" }}{% endif %}>
+                    <label class="form-check-label" for="difCheck">-</label>
+                </div>
+                <div class="col-3 form-check">
+                    <input type="checkbox" name="mulCheck" class="form-check-input" id="mulCheck" {% if '*' in
+                        sample_opers %}{{ "checked" }}{% endif %}>
+                    <label class="form-check-label" for="MultCheck">*</label>
+                </div>
+                <div class="col-3 form-check">
+                    <input type="checkbox" name="divCheck" class="form-check-input" id="divCheck" {% if '/' in
+                        sample_opers %}{{ "checked" }}{% endif %}>
+                    <label class="form-check-label" for="divCheck">/</label>
+                </div>
+            </div>
+            <button type="submit" name="submit_btn" value="apply" class="btn btn-primary">Применить</button>
         </form>
     </div>
+    {% else %}
+    <div>
+        <form method="POST" class="form-control border-0 w-25 mx-auto text-center mt-3">
+            <label for="quadDifficulty" class="form-label">Выберите сложность:</label>
+            <select name="quadDifficulty" id="quadDifficulty" class="form-select">
+                <option value="Легкая">Легкая</option>
+                <option value="Средняя">Средняя</option>
+                <option value="Сложная">Сложная</option>
+            </select>
+            <button type="submit" name="submit_btn" value="apply" class="btn btn-primary mt-2">Применить</button>
+        </form>
+    </div>
+    {% endif %}
+
+    <form method="POST" class="w-25 mx-auto my-3">
+        <div class="form-group my-2">
+            <label for="problem" hidden="hidden">Problem:</label>
+            <input type="text" class="form-control" id="problem" value="{{ problem }}" disabled>
+            <input type="hidden" name="correct_answer" value="{{ correct_answer }}">
+        </div>
+        {% if category == 'quadratic_equation' %}
+        <div class="form-group my-2">
+            <label for="answer1">Корень 1:</label>
+            <input type="number" step="any" class="form-control" id="answer1" name="answer1" required>
+        </div>
+        <div class="form-group my-2">
+            <label for="answer2">Корень 2 (опционально):</label>
+            <input type="number" step="any" class="form-control" id="answer2" name="answer2">
+        </div>
+        {% else %}
+        <div class="form-group my-2">
+            <label for="answer1">Ответ:</label>
+            <input type="number" step="any" class="form-control" id="answer1" name="answer1" required>
+        </div>
+        {% endif %}
+        <div class="w-100 text-center">
+            <button type="submit" name="submit_btn" value="answer" class="btn btn-primary my-2">Отправить</button>
+        </div>
+
+    </form>
+</div>
 {% endblock %}
