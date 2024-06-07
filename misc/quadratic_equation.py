@@ -7,7 +7,7 @@ from typing import Literal
 
 def generate(
     difficulty: Literal["Легкая", "Средняя", "Сложная"]
-) -> tuple[str, float | tuple[float, float]]:
+) -> tuple[str, set[float]]:
     a, b, c = generate_coefficients(difficulty)
     equation = get_equation(a, b, c)
     roots = get_roots(a, b, c)
@@ -51,8 +51,8 @@ def generate_coefficients(
             return a, b, c
 
 
-def get_roots(a: int, b: int, c: int) -> float | tuple[float, float]:
-    "Возвращает корень или кортеж из двух корней для квадратного уравнения"
+def get_roots(a: int, b: int, c: int) -> set[float]:
+    "Возвращает множество корней квадратного уравнения"
 
     discriminant = b * b - 4 * a * c
     sqrt_d = sqrt(abs(discriminant))
@@ -60,12 +60,11 @@ def get_roots(a: int, b: int, c: int) -> float | tuple[float, float]:
     if discriminant > 0:
         root1 = (-b + sqrt_d) / (2 * a)
         root2 = (-b - sqrt_d) / (2 * a)
-        return root1, root2
     elif discriminant == 0:
-        root = -b / (2 * a)
-        return root
+        root1 = -b / (2 * a)
     else:
         raise ValueError("Попытка получить корни корни квадратного уравнения с D < 0")
+    return {root1, root2} if root2 else {root1}
 
 
 def get_equation(a: int, b: int, c: int) -> str:

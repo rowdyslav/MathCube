@@ -109,14 +109,15 @@ def generator_post():
 
     match request.form["submit_btn"]:
         case 'answer':
-            user_answer1: str = request.form.get("answer1") # type: ignore
+            answer1: float = float(request.form.get("answer1")) # type: ignore
             correct_answer: int | float | tuple[float, float] = session.get('correct_answer') # type: ignore
 
             if category == "quadratic_equation":
-                user_answers = {float(str_answer) for str_answer in (user_answer1, request.form.get("answer2")) if str_answer}
+                answer2 = request.form.get("answer2")
+                user_answers = {answer1, float(answer2)} if answer2 else {answer1}
                 is_correct = user_answers == correct_answer
             else:
-                is_correct = user_answer1 == correct_answer
+                is_correct = answer1 == correct_answer
             inc_stat = {f"statistic.{category}.all": 1}
 
             if is_correct:
