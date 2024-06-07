@@ -17,9 +17,6 @@
                     </div>
                     <div class="modal-body">
                         {{ message }}
-                        {% if message == "Неправильно!" %}
-                        Правильный ответ: {{ correct_answer }}
-                        {% endif %}
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ок
@@ -84,9 +81,12 @@
         <form method="POST" class="form-control border-0 w-25 mx-auto text-center mt-3">
             <label for="quadDifficulty" class="form-label">Выберите сложность:</label>
             <select name="quadDifficulty" id="quadDifficulty" class="form-select">
-                <option value="Легкая">Легкая</option>
-                <option value="Средняя">Средняя</option>
-                <option value="Сложная">Сложная</option>
+                <option value="Легкая" {% if quadratic_equation_difficulty=='Легкая' %}{{ 'selected="selected"' }}{%
+                    endif%}>Легкая</option>
+                <option value="Средняя" {% if quadratic_equation_difficulty=='Средняя' %}{{ 'selected="selected"' }}{%
+                    endif%}>Средняя</option>
+                <option value="Сложная" {% if quadratic_equation_difficulty=='Сложная' %}{{ 'selected="selected"' }}{%
+                    endif%}>Сложная</option>
             </select>
             <button type="submit" name="submit_btn" value="apply" class="btn btn-primary mt-2">Применить</button>
         </form>
@@ -97,7 +97,6 @@
         <div class="form-group my-2">
             <label for="problem" hidden="hidden">Problem:</label>
             <input type="text" class="form-control" id="problem" value="{{ problem }}" disabled>
-            <input type="hidden" name="correct_answer" value="{{ correct_answer }}">
         </div>
         {% if category == 'quadratic_equation' %}
         <div class="form-group my-2">

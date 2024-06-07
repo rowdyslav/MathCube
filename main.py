@@ -110,12 +110,11 @@ def generator_post():
     match request.form["submit_btn"]:
         case 'answer':
             user_answer1: str = request.form.get("answer1") # type: ignore
-            correct_answer: str = request.form.get("correct_answer") # type: ignore
+            correct_answer: int | float | tuple[float, float] = session.get('correct_answer') # type: ignore
 
             if category == "quadratic_equation":
-                correct_answers = {float(str_answer) for str_answer in correct_answer.split("|")}
                 user_answers = {float(str_answer) for str_answer in (user_answer1, request.form.get("answer2")) if str_answer}
-                is_correct = correct_answers == user_answers
+                is_correct = user_answers == correct_answer
             else:
                 is_correct = user_answer1 == correct_answer
             inc_stat = {f"statistic.{category}.all": 1}
@@ -124,7 +123,7 @@ def generator_post():
                 flash("Верно!")
                 inc_stat[f"statistic.{category}.correct"] = 1
             else:
-                flash("Неправильно!")
+                flash(f"Неправильно! Правильный ответ {correct_answer}")
 
             User._update(current_user._id, "$inc", **inc_stat)
         case 'apply':
@@ -159,13 +158,11 @@ def generator_get():
         case "quadratic_equation":
             difficulty: Literal["Легкая", "Средняя", "Сложная"] = session.get('quadratic_equation_difficulty', 'Легкая')
             problem, correct_answer = quadratic_equation.generate(difficulty)
-            if isinstance(correct_answer, tuple):
-                correct_answer = f"{correct_answer[0]}|{correct_answer[1]}"
             additional['quadratic_equation_difficulty'] = difficulty
+    session['correct_answer'] = correct_answer
     return render_template(
         "pages/generator.html",
         problem=problem,
-        correct_answer=correct_answer,
         category=category,
         **additional
     )
