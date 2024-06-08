@@ -20,7 +20,7 @@
 <!-- ABOUT THE PROJECT -->
 # О проекте
 
-![Product Name Screen Shot][product-screenshot]
+![Product Name Screen Cast][product-screencast]
 
 На нашем сайте вы найдете уникальные инструменты для улучшения своих математических навыков и подготовки к экзаменам. Мы предлагаем два мощных инструмента: Генератор уравнений и интеграцию с API сайта "Сдам ГИА".
 
@@ -76,4 +76,4 @@ docker stop mathcube-server-1
 
 <p align="right">(<a href="#readme-top">наверх</a>)</p>
 
-[product-screenshot]: static/img/screenshots/product.png
+[product-screencast]: static/img/screencast.mp4
