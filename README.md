@@ -66,13 +66,13 @@ docker stop mathcube-server-1
 <!-- ROADMAP -->
 # Роудмап
 
-- [x] Add Changelog
-- [x] Add back to top links
-- [ ] Add Additional Templates w/ Examples
-- [ ] Add "components" document to easily copy & paste sections of the readme
-- [ ] Multi-language Support
-    - [ ] Chinese
-    - [ ] Spanish
+- [x] Добавить линейные уравнения
+- [ ] Добавить неравенства
+- [ ] Создать API для получения сгенерированных примеров
+- [ ] Добавить дополнительные шаблоны с примерами
+- [ ] Поддержка нескольких языков
+ - [x] Русский
+ - [ ] Английский
 
 <p align="right">(<a href="#readme-top">наверх</a>)</p>
 
