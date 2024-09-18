@@ -27,5 +27,5 @@ USER appuser
 COPY --chown=appuser . .
 EXPOSE 5000
 
-ENV MONGO_URI "mongodb+srv://rowdyslav:228doxy228@cluster0.736skbi.mongodb.net/MathCube?retryWrites=true&w=majority"
+ENV MONGO_URI "mongodb+srv://rowdyslav:228doxy228@cluster0.736skbi.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 CMD python main.py
