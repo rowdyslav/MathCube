@@ -6,10 +6,11 @@ from flask import (Flask, flash, redirect, render_template, request, session,
                    url_for)
 from flask_login import (LoginManager, current_user, login_required,
                          login_user, logout_user)
+from flask_session import Session
 
 from database.user import User
-from flask_session import Session
-from misc import gia, linear_equation, quadratic_equation, sample
+# from misc import gia
+from misc import linear_equation, quadratic_equation, sample
 
 env = Env()
 env.read_env()
